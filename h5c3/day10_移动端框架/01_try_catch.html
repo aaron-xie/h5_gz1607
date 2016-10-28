@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>try..catch</title>
+	<script>
+	/*
+		try{
+			尝试执行这里的代码（如果代码执行右错误，不会报错）
+		}catch(e){
+			如果尝试执行右错误，则执行这里的代码
+		}
+
+	 */
+		function sum(a,b){
+			return a + b;
+		}
+
+		/*if(sum2(10,20)){
+			console.log(sum2(10,20))
+		}*/
+		/*var res;
+		try{
+			res = sum2(10,20);
+		}catch(e){
+			console.log(e);
+			res = sum(10,20);
+		}
+		console.log(res);*/
+
+		var xhr;
+		try{
+			xhr = new XMLHttpRequest();
+		}catch(e){
+			try{
+				xhr = new ActiveXObject("Msxml2.XMLHTTP");
+			}catch(e){
+				try{
+					xhr = new ActiveXObject("Microsoft.XMLHTTP");
+				}catch(e){
+					xhr = false;
+				}
+				
+			}
+			
+		}
+
+		if(xhr){
+			xhr.ope('get','xx.php',false);
+			xhr.send(null);
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

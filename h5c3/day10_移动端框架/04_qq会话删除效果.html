@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>qq会话删除效果</title>
+	<style>
+	ul{list-style: none;padding:0;margin:0;}
+	.datalist{border:1px solid #ddd;}
+		.datalist li{position:relative;padding:10px;border-bottom:1px dotted #ccc;overflow: hidden;}
+		.datalist li:last-child{border:none;}
+		.datalist .content{transition:all 0.5s;}
+		.datalist img{
+			width:60px;height:60px;border-radius:50%;vertical-align: top
+		}
+		.datalist time{position:absolute;top:10px;right:10px;}
+		.datalist li .del{position:absolute;right:10px;top:50%;margin-top:-14px;padding:5px 10px;background-color:#c00;color:#fff;transform:translateX(100px);transition:all 0.5s;}
+		.datalist li.delete .content{transform:translateX(-100px);}
+		.datalist li.delete .del{transform:translateX(0);}
+	</style>
+	<script src="node_modules/zepto/dist/zepto.js"></script>
+	<script src="node_modules/zepto/src/touch.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded',function(){
+			var $datalist = $('.datalist');
+			// document.getElementsByTagName('button')
+
+			$datalist.on('swipeLeft','li',function(){
+				$(this).addClass('delete')
+			}).on('swipeRight','li',function(){
+				$(this).removeClass('delete');
+			}).on('singleTap','.del',function(){
+				$(this).closest('li').remove();
+			});
+		})
+	</script>
+</head>
+<body>
+	<h1>qq会话删除效果</h1>
+	<ul class="datalist">
+		<li>
+		<div class="content">
+			<img src="img/mm001.jpg" alt="">
+			<strong>张三</strong>
+			<time>12:00</time>
+		</div>
+		<span class="del">删除</span></li>
+		<li>
+		<div class="content">
+			<img src="img/mm002.jpg" alt="">
+			<strong>张三</strong>
+			<time>12:00</time>
+		</div>
+		<span class="del">删除</span></li>
+		<li>
+		<div class="content">
+			<img src="img/mm003.jpg" alt="">
+			<strong>张三</strong>
+			<time>12:00</time>
+		</div>
+		<span class="del">删除</span></li>
+		<li>
+		<div class="content">
+			<img src="img/mm004.jpg" alt="">
+			<strong>张三</strong>
+			<time>12:00</time>
+		</div>
+		<span class="del">删除</span></li>
+		<li>
+		<div class="content">
+			<img src="img/mm005.jpg" alt="">
+			<strong>张三</strong>
+			<time>12:00</time>
+		</div>
+		<span class="del">删除</span></li>
+		<li>
+		<div class="content">
+			<img src="img/mm006.jpg" alt="">
+			<strong>张三</strong>
+			<time>12:00</time>
+		</div>
+		<span class="del">删除</span></li>
+	</ul>
+</body>
+</html>

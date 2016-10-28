@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>zepto tap事件</title>
+	<script src="node_modules/zepto/dist/zepto.js"></script>
+	<script src="node_modules/zepto/src/touch.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded',function(){
+			var btn = document.querySelectorAll('button');
+			// document.getElementsByTagName('button')
+
+			btn.forEach(function(ele){
+				$(ele).on('longTap',function(){
+					console.log(this.innerHTML);
+				})
+			})
+		})
+	</script>
+</head>
+<body>
+	<button>点我试试</button>
+	<button>点你咋地</button>
+	<button>再点一次试试</button>
+</body>
+</html>

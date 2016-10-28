@@ -1,0 +1,12 @@
+$black:           #000 !default;
+$gray-darker:     lighten($black, 13.5%) !default; // #222
+$gray-dark:       lighten($black, 20%) !default;   // #333
+$gray:            lighten($black, 33.5%) !default; // #555
+$gray-light:      lighten($black, 46.7%) !default; // #777
+$gray-lighter:    lighten($black, 93.5%) !default; // #eee
+
+$primary:         #428bca !default;
+$success:         #5cb85c !default;
+$info:            #5bc0de !default;
+$warning:         #f0ad4e !default;
+$danger:          #d9534f !default;

@@ -1,15 +1,7 @@
-/*
-	1）变量
-	2）嵌套
-	3）继承
-	4）循环
-	5）条件判断
- */
+@import 'variables';
+@import 'reset';
+@import 'common';
+@import 'project';
 
-$primaryColor:#387ef5;
-$subColor:lighten($primaryColor,10%);
-
-body{font-family:'微软雅黑';}
-a{color:$primaryColor}
-a:hover{color:$subColor}
-
+//1）在sass文件中，以下划线“_”开头的文件不会被编译
+//2）@import引入sass文件时，可省略下划线和后缀名

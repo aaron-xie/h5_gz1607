@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection">
+    <title>去哪保</title>
+    <link rel="stylesheet" type="text/css" href="../assets/jquery-mobile/jquery.mobile.structure-1.4.5.css" />
+    <link rel="stylesheet" type="text/css" href="../css/custom-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <script type="text/javascript" src="../assets/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../js/jqm.custom-setting.js"></script>
+    <script type="text/javascript" src="../assets/jquery-mobile/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="../js/page.js"></script>
+</head>
+
+<body>
+    <section data-role="page" id="listPage">
+        <header class="top-menu clearfix">
+            <a href="#" class="accuracy1">报价准确度</a>
+            <a href="#" id="btn_filter" class="sort-filter right">价格由高到低</a>
+            <div id="pop_fliter" data-corners="false" class="pop-filter">
+                <ul data-role="listview">
+                    <li class="hot">按推荐热度</li>
+                    <li class="asc">价格由低到高<span class="glyphicon glyphicon-arrow-up"></span></li>
+                    <li class="desc">价格由高到低<span class="glyphicon glyphicon-arrow-down"></span></li>
+                </ul>
+            </div>
+        </header>
+        <article data-role="content">
+            <!-- <div id="list_collapsible" class="instruction clearfix">
+                <a href="#" class="ui-btn ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" id="btn_closeInstruction"></a>
+                <h4>使用前说明</h4>
+                <ul class="clearfix">
+                    <li>
+                        <a><img alt="step 1" src="../images/step01.jpg" />
+                        </a>
+                        <p>填写左边<span>3个</span>车险信息，并更新报价</p>
+                    </li>
+                    <li>
+                        <a><img alt="step 2" src="../images/step02.jpg" />
+                        </a>
+                        <p>获得报价后，查看实时<span>变化的价格</span>
+                        </p>
+                    </li>
+                    <li>
+                        <a><img alt="step 3" src="../images/step03.jpg" />
+                        </a>
+                        <p>通过<span>查看详情和对比</span>，选择最适合的车险进行投保</p>
+                    </li>
+                </ul>
+            </div> -->
+            <div class="list-wrap">
+                <ul id="providerList" data-role="listview" data-icon="false">
+                </ul>
+            </div>
+        </article>
+        <footer id="list_footer" data-role="footer" data-position="fixed">
+            <a href="sidebar.html" data-role="button" data-theme="f" data-inline="true" data-icon="arrow-left" rel="external" id="btn_showSidebar">修改信息，更新报价</a>
+            <span class="result-status">
+                匹配了<b>6</b>家公司
+            </span>
+        </footer>
+    </section>
+</body>
+
+</html>

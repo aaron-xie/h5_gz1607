@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<title>获取通讯录信息</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+</head>
+<body>
+	<div class="row" id="list">
+	</div>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script>
+        document.addEventListener('deviceready',function(){
+        	 var fields = [navigator.contacts.fieldType.displayName, navigator.contacts.fieldType.name];
+        	 navigator.contacts.find(fields, function(contacts){
+        	 	console.log(JSON.stringify(contacts));
+        	 }, function(){
+
+        	 }, {});
+        });
+    </script>
+</body>
+</html>

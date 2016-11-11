@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>新闻</title>
+	<script src="lib/zepto/zepto.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded',function(){
+			var idcard = document.querySelector('#idcard');
+			var btn = idcard.nextElementSibling;
+			var result = document.querySelector('#result');
+
+			// btn.onclick = function(){
+				$.ajax({
+					url:'http://apis.baidu.com/txapi/keji/keji',
+					headers:{
+						apikey:'34904db6ec961521d5d34d7b710cd501'
+					},
+					data:{
+						num:50,
+						page:1
+					},
+					success:function(res){
+						console.log(res);
+
+						
+					}
+				});
+			// }
+		});
+	</script>
+</head>
+<body>
+	昨晚梦到什么：<input type="text" id="idcard"><button>解梦</button>
+	<div id="result"></div>
+</body>
+</html>

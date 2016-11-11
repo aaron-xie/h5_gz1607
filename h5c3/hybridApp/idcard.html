@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>身份验证</title>
+	<script src="lib/zepto/zepto.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded',function(){
+			var idcard = document.querySelector('#idcard');
+			var btn = idcard.nextElementSibling;
+
+			btn.onclick = function(){
+				$.ajax({
+					url:'http://apis.baidu.com/apistore/idservice/id',
+					headers:{
+						apikey:'34904db6ec961521d5d34d7b710cd501'
+					},
+					data:{
+						id:idcard.value
+					},
+					success:function(res){
+						console.log(res)
+					}
+				})
+			}
+		});
+	</script>
+</head>
+<body>
+	身份证：<input type="text" id="idcard"><button>验证</button>
+</body>
+</html>

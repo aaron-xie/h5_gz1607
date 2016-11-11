@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<title>Document</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+</head>
+<body>
+	<div class="row" id="picList">
+		<!-- <div class="col-xs-6 col-md-3">
+			<a href="#" class="thumbnail">
+				<img data-src="holder.js/100%x180" alt="...">
+			</a>
+		</div> -->
+	</div>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script>
+        document.addEventListener('deviceready',function(){
+        	var picList = document.querySelector('#picList');
+        	function success(imgData){
+        		var div = document.createElement('div');
+        		var a = document.createElement('a');
+        		div.className = 'col-xs-6 col-md-3';
+        		a.className = 'thumbnail';
+
+        		var img = new Image();
+        		img.src = imgData;
+
+        		a.appendChild(img);
+        		div.appendChild(a);
+        		picList.appendChild(div);
+        	}
+        	function error(){
+
+        	}
+        	var cameraOption = {};
+
+            navigator.camera.getPicture(success, error, cameraOption);
+        });
+    </script>
+</body>
+</html>

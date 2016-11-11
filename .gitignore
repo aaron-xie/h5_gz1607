@@ -2,6 +2,7 @@
 /share/
 media/
 node_modules/
+platforms/
 
 *.zip
 *.mp3

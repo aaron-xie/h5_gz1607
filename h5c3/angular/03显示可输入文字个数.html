@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>03显示可输入文字个数</title>
+	<style>
+		.error{color:#f00;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		// 创建一个模块
+		var app = angular.module('myApp',[]);
+
+		// 定义一个控制器
+		// 这里不建议操作DOM节点，而是操作数据
+		app.controller('CharLimite',function($scope){
+			// 初始化
+			$scope.total = 20;
+			$scope.msg = '';
+
+			// 获取剩余可输字数
+			$scope.left = function(){
+				var left = $scope.total - $scope.msg.length;
+				if(left==0){
+					$scope.maxMsg = $scope.msg;
+					left=0;
+				}
+				
+				if(left < 0){
+					$scope.msg = $scope.maxMsg;
+				}
+				return left;
+			}
+		});
+
+		// ng-class
+		// 变量：ng-class="myCls"
+		// 数组：ng-class="[cls1,cls2,cls3]"
+		// 对象：ng-class="{error:left<10}"
+	</script>
+</head>
+<body ng-controller="CharLimite">
+	<h1>显示可输入文字个数</h1>
+	<textarea name="" id="" cols="50" rows="6" ng-model="msg"></textarea>
+	<p><span ng-class="{error:left()<10}">{{left()}}</span>/{{total}}</p>
+</body>
+</html>

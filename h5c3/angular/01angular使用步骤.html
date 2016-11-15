@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angular的使用</title>
+	<script src="lib/angular/angular.js"></script>
+
+	<!-- CDN -->
+	<!-- <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-animate.js"></script> -->
+	<script>
+		/*
+		//原生js
+		document.addEventListener('DOMContentLoaded',function(){
+			// 1）获取元素
+			var text = document.querySelector('#text');
+			var output = document.querySelector('#output');
+			var span = output.children[0];
+
+			// 2）绑定事件
+			text.oninput = function(){
+				var msg = text.value;
+
+				// 3）操作DOM节点
+				span.innerHTML = msg;
+			}
+		})*/
+
+		//angular实现
+	</script>
+</head>
+<body ng-app>
+	<!-- 原生js
+	<input type="text" id="text">
+	<p id="output">你是我的小呀小苹果，<span></span></p> -->
+
+
+	<div>
+		<input type="text" ng-model="msg">
+		<p>你是我的小呀小苹果，{{msg}}</p>
+	</div>
+
+	{{msg}}
+</body>
+</html>

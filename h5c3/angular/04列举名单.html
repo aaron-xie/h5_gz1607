@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>03列举名单</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<style>
+		body{padding:50px;}
+		#res{margin-bottom: 20px;}
+		#res button{margin:5px;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		var namelist = '田方矿,吴怀宇,韦松吕,刘小平,杨华,廖旺萍,卢金红,黄甫江,刘亚飞,蒙世裕,韩江华,曾旺,蒙有才,杨宇航,周海强,陈芳玲,蓝康华,王福恒,朱冠亮,黄冼英,汪康,廖玉兰,黄春松,李家新,周赐骏,覃淑燕,岑德顺,庞芝翠,陈梓鹏,黎寅华,王耀宗,付雷,刘祥,徐天伦,谢育强,徐枝国,冯科达,覃振源,王皓,李爱莲,陈炳林';
+
+		/*// 原生js的写法 
+		document.addEventListener('DOMContentLoaded',function(){
+			var res = document.querySelector('#res');
+			var list = document.querySelector('#list');
+			var btnSubmit = list.nextElementSibling.querySelector('button');
+
+			list.value = namelist;
+
+			namelist.split(',').forEach(function(name){
+				var btn = document.createElement('button');
+				btn.className = 'btn btn-default';
+				btn.innerHTML = name;
+				res.appendChild(btn);
+			});
+
+			btnSubmit.onclick = function(){
+				namelist = list.value;
+
+				res.innerHTML = '';
+				namelist.split(',').forEach(function(name){
+					var btn = document.createElement('button');
+					btn.className = 'btn btn-default';
+					btn.innerHTML = name;
+					res.appendChild(btn);
+				});
+			}
+
+		});*/
+		
+
+		// angular的写法
+		angular.module('myApp',[])
+
+		.controller('NameController',function($scope){
+			// console.log($scope);
+
+			$scope.namelist = namelist.split(',');
+			$scope.list = namelist.split(',');
+
+			$scope.modify = function(){
+				$scope.namelist = $scope.list.split(',');
+			}
+
+		});
+
+		// 指令
+		// ng-repeat 用于遍历数据（数组，对象）
+		// ng-app
+		// ng-controller
+		// ng-model
+		// ng-click
+		// ng-class
+		// 
+		// ng-src
+		// ng-href
+	</script>
+</head>
+<body ng-controller="NameController">
+	<!-- <div id="res"></div>
+	<textarea cols="60" rows="6" id="list"></textarea>
+	<p><button>提交</button></p> -->
+
+	<div id="res">
+		<button class="btn {{name==currentName?'btn-success':'btn-default'}}" ng-repeat="name in namelist">{{name}}</button>
+	</div>
+	<textarea cols="60" rows="6" id="list" ng-model="list"></textarea>
+	<p><button ng-click="modify()">提交</button></p>
+
+	<!-- 登录 -->
+	<input type="text" ng-model="currentName">
+</body>
+</html>

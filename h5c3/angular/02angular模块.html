@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>angular模块</title>
+	<script src="lib/angular/angular.js"></script>
+
+	<script>
+		/*
+			angular内置指令：
+				ng-app
+				ng-controller
+				ng-model
+				ng-click
+
+		 */
+		/* 
+		定义一个模块
+		- 第一个参数：模块名称
+		- 第二个参数：模块依赖
+		*/
+		var app = angular.module('myApp',[]);
+		// console.log(app);
+
+		// 定义一个控制器Controller
+		// 控制器必须在模块下创建，angular在执行控制器函数时，会根据参数的名字（$scope）自动的注入对象，所以名字不能修改（这是注入对象，不能理解为传统的形参）
+		// 使用：在视图中用ng-controller="myController"
+		app.controller('MyController',function($scope){
+			// $scope是view和controller之间的桥梁
+			console.log($scope);
+
+
+			$scope.person = {
+				name:'老谢',
+				enName:'laoxie',
+				age:28
+			}
+
+			$scope.setAge = function(age){
+				$scope.person.age = age;
+			}
+		});
+	</script>
+</head>
+<body>
+	<!-- 视图View -->
+	<div ng-controller="MyController">
+		<!-- 
+		{{}}:双花括号==>表达式
+		 -->
+		你好，我叫<strong>{{person.name}}</strong>,英文名叫{{person.enName}},今年{{person.age}}
+
+		<!-- 
+			双向数据绑定
+			ng-model
+		 -->
+		<p><input type="number" ng-model="person.age"></p>
+
+		<!-- 
+			ng-click
+		 -->
+		<button ng-click="setAge(30)">修改年龄</button>
+	</div>
+</body>
+</html>

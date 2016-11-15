@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>05ngRepeat重复元素</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+	/*
+		ng-repeat遍历数组
+		ng-repeat="item in arr"
+
+		ng-repeat遍历对象
+		ng-repeat="(key,val) in obj";
+
+		当ng-repeat中亦重复项时,用track by $index
+	 */
+		angular.module('myApp',[])
+
+		// 注入
+		.controller('myController',function($scope){
+			$scope.namelist = [
+				{name:'刘备', nickname:'大耳贼', wifeQty:3},
+				{name:'关羽', nickname:'关二', wifeQty:0},
+				{name:'张飞', nickname:'张三', wifeQty:2},
+				{name:'赵云', nickname:'赵四', wifeQty:1}
+			]
+		})
+
+		.controller('yourController',function($scope){
+			$scope.name = ['小明','小红','小黑','小强','张伟','小谢','张伟']
+			/*$scope.score = {
+				name:'小明',
+				value:56,
+				bktimes:5
+			}*/
+		})
+	</script>
+</head>
+<body>
+	<ul ng-controller="myController">
+		<li ng-repeat="item in namelist">{{item.name}}, 人称{{item.nickname}}，妻妾数量{{item.wifeQty}}</li>
+	</ul>
+<!-- 	<footer ng-controller="yourController">
+	<ul>
+		<li ng-repeat="(key, value) in score">{{key}}：{{value}}</li>
+		<li ng-repeat="item in name track by $index">{{item}}</li>
+	</ul>
+</footer> -->
+</body>
+</html>

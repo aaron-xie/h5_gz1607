@@ -1035,6 +1035,7 @@ body .markdown-body
 <li><a href="#filter">过滤器（filter）</a><ul>
 <li><a href="#_9">内置过滤器</a></li>
 <li><a href="#_10">自定义过滤器</a></li>
+<li><a href="#js">在js代码中使用过滤器</a></li>
 </ul>
 </li>
 <li><a href="#_11">表单</a><ul>
@@ -1172,7 +1173,6 @@ var myApp = angular.module('MyApp');
 <li>ng-href</li>
 <li>ng-include<ul>
 <li>onload:页面加载完成后执行</li>
-<li>scope:</li>
 </ul>
 </li>
 <li>ng-bind</li>
@@ -1237,7 +1237,7 @@ $scope.num = 12345678;
 <li>
 <p>json 把js对象转换成JSON字符串,与JSON.stringify()相同</p>
 <ul>
-<li>使用双花括号的绑定会自动转换成JSON</li>
+<li>使用双花括号的绑定会自动转换成JSON字符串</li>
 </ul>
 </li>
 <li>
@@ -1250,7 +1250,7 @@ $scope.num = 12345678;
 </code></pre></p>
 <ul>
 <li>expression，一个用于通过比较来决定元素顺序的声明，类型可以为：<ul>
-<li>Function: 这个函数的结果可使用 &lt;, =, &gt;操作符进行排序。 </li>
+<li>function: 这个函数的结果可使用 &lt;, =, &gt;操作符进行排序。 </li>
 <li>string: 一个Angular表达式，对一个对象求值来排序，如用&rsquo;name&rsquo;来对属性名为&rsquo;name&rsquo;排序。用可选前缀 + 或 -来确定是正序或倒序 (例如，+name or -name)。 </li>
 <li>Array: 一个函数或字符串声明数组。数组中的第一个声明用于排序，但是当两个条目相等时，会用下一个声明。</li>
 </ul>
@@ -1263,6 +1263,9 @@ $scope.num = 12345678;
 <p>limitTo 选取前N个记录<br />
 <pre><code>{{ limitTo_expression | limitTo : limit}}
 </code></pre></p>
+<ul>
+<li>limit可以为负数</li>
+</ul>
 </li>
 <li>
 <p>filter<br />
@@ -1271,7 +1274,7 @@ $scope.num = 12345678;
 </li>
 <li>string，如：&rsquo;a&rsquo;，匹配属性值中含有&rsquo;a&rsquo;的数组项</li>
 <li>object,如：{name:&rsquo;i&rsquo;}，匹配name属性值中含有&rsquo;i&rsquo;的数组项</li>
-<li>function</li>
+<li>function,如：function(a){return a.age &gt; 18}，匹配数组中age属性大于18的项</li>
 </ul>
 <h3 id="_10"><a name="user-content-_10" href="#_10" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>自定义过滤器</h3>
 <pre><code>app.filter('filterName', function(){
@@ -1281,6 +1284,25 @@ $scope.num = 12345678;
 });
 </code></pre>
 
+<h3 id="js"><a name="user-content-js" href="#js" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>在js代码中使用过滤器</h3>
+<ul>
+<li>
+<p>注入过滤器</p>
+<blockquote>
+<p>格式：name + Filter<br />
+<pre><code>.controller('myCtrl',function($scope,currencyFilter){
+    currencyFilter('998');//=&gt;$998.00
+    currencyFilter('998','￥');//=&gt;￥998.00
+})
+</code></pre></p>
+</blockquote>
+</li>
+<li>
+<p>注入$filter服务<br />
+<pre><code>$filter('currency')(amount, symbol)
+</code></pre></p>
+</li>
+</ul>
 <h2 id="_11"><a name="user-content-_11" href="#_11" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>表单</h2>
 <h3 id="_12"><a name="user-content-_12" href="#_12" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>双向数据绑定</h3>
 <p>ng-model</p>

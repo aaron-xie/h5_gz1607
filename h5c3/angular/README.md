@@ -112,7 +112,6 @@ myApp.controller('HelloController', function($scope) {
 * ng-href
 * ng-include
     - onload:页面加载完成后执行
-    - scope:
 * ng-bind
 * ng-bind-html
     - $sce.trustAsHtml()经过此方法处理的html才能显示到页面
@@ -155,7 +154,7 @@ $scope.num = 12345678;
     - format可选
 
 * json 把js对象转换成JSON字符串,与JSON.stringify()相同
-    - 使用双花括号的绑定会自动转换成JSON
+    - 使用双花括号的绑定会自动转换成JSON字符串
 
 * lowercase   格式化字符串为小写。
 * uppercase   格式化字符串为大写。
@@ -164,7 +163,7 @@ $scope.num = 12345678;
 {{ orderBy_expression | orderBy : expression : reverse}}
 ```
     - expression，一个用于通过比较来决定元素顺序的声明，类型可以为：
-        + Function: 这个函数的结果可使用 <, =, >操作符进行排序。 
+        + function: 这个函数的结果可使用 <, =, >操作符进行排序。 
         + string: 一个Angular表达式，对一个对象求值来排序，如用'name'来对属性名为'name'排序。用可选前缀 + 或 -来确定是正序或倒序 (例如，+name or -name)。 
         + Array: 一个函数或字符串声明数组。数组中的第一个声明用于排序，但是当两个条目相等时，会用下一个声明。
     - reverse 是否对数组进行反向排序(布尔值，可选)
@@ -174,14 +173,15 @@ $scope.num = 12345678;
 ```
 {{ limitTo_expression | limitTo : limit}}
 ```
-
+    - limit可以为负数
+    
 * filter
 ```
 {{ expression | filter : expression}}
 ```
 * string，如：'a'，匹配属性值中含有'a'的数组项
 * object,如：{name:'i'}，匹配name属性值中含有'i'的数组项
-* function
+* function,如：function(a){return a.age > 18}，匹配数组中age属性大于18的项
 
 
 ###自定义过滤器
@@ -191,6 +191,21 @@ app.filter('filterName', function(){
         return result;
     }
 });
+```
+
+###在js代码中使用过滤器
+* 注入过滤器
+>格式：name + Filter
+```
+.controller('myCtrl',function($scope,currencyFilter){
+    currencyFilter('998');//=>$998.00
+    currencyFilter('998','￥');//=>￥998.00
+})
+```
+
+* 注入$filter服务
+```
+$filter('currency')(amount, symbol)
 ```
 
 

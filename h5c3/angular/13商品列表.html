@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>13商品列表</title>
+    <style>
+    	ul{list-style: none;padding:0;margin:0;}
+    	a{color:#333;text-decoration: none;}
+    	a:hover{color:#f00;}
+    	.goodslist{overflow:hidden;}
+    	.goodslist li{float:left;border:1px solid #ddd;margin:10px;padding:10px;width:200px;height:300px;}
+    	.goodslist img{width:200px;}
+    	.price span{color:#f00;}
+    	.sort{border-bottom:2px solid #ddd;padding:10px;}
+    	.sort span{display:inline-block;margin:0 5px;}
+    </style>
+    <script src="lib/angular/angular.js"></script>
+    <script>
+    angular.module('myApp', [])
+
+    .controller('mainCtrl', function($scope,$http) {
+        // angular中的ajax请求
+        // 注入$http服务
+        $http.get('goodslist.json').success(function(res){
+        	console.log(res);
+        	// 初始化
+        	$scope.sortType = '';
+        	$scope.list = res;
+
+        	$scope.sort = function(type,reverse){
+        		$scope.sortType=type;
+        		$scope.reverse=reverse;
+        	}
+
+        	$scope.filterFn = function(item){
+        		return item.price > 20000 && item.price < 22000
+        	}
+        })
+    });
+    </script>
+</head>
+
+<body ng-controller="mainCtrl">
+	<div class="sort">
+		<!-- <span ng-click="sortType='pag';reverse=!reverse">按商品名称排序</span>
+		<span ng-click="sortType='price';reverse=!reverse">按价格排序</span> -->
+		<span ng-click="sort('pag',!reverse)">按商品名称排序</span>
+		<span ng-click="sort('price',!reverse)">按价格排序</span>
+	</div>
+	<ul class="goodslist">
+		<!-- <li ng-repeat="item in list | orderBy:sortType:reverse | limitTo:9">
+			<a ng-href="{{item.url}}">
+				<img ng-src="{{item.imgurl}}" alt="">
+				{{item.pag}}
+			</a>
+			<p class="price">价格：<span>{{item.price | currency:'￥'}}</span></p>
+		</li> -->
+		<li ng-repeat="item in list | filter:filterFn">
+			<a ng-href="{{item.url}}">
+				<img ng-src="{{item.imgurl}}" alt="">
+				{{item.pag}}
+			</a>
+			<p class="price">价格：<span>{{item.price | currency:'￥'}}</span></p>
+		</li>
+	</ul>
+</body>
+</html>

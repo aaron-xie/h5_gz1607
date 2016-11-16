@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>12过滤器</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		angular.module('myApp',[])
+
+		.controller('mainCtrl',function($scope){
+			$scope.person = [
+				{
+					name:'高圆圆',
+					gender:'女',
+					age:28
+				},
+				{
+					name:'michael jackson',
+					gender:'男',
+					age:68
+				},
+				{
+					name:'Misko Hevery',
+					gender:'男',
+					age:38
+				},
+				{
+					name:'马云',
+					gender:'男',
+					age:48
+				}
+			]
+		})
+	</script>
+</head>
+<body>
+	<div ng-controller="mainCtrl">
+		<p ng-bind="person | json">{{person}}</p>
+		<span ng-click="type='name'">按名字排列</span>
+		<span ng-click="type='age'">按年龄排列</span>
+		<span ng-click="type='gender'">按性别排列</span>
+		<ul>
+			<li ng-repeat="item in person | orderBy:type">我叫{{item.name | uppercase}}, {{item.gender}}, 今年{{item.age}}</li>
+		</ul>
+	</div>
+</body>
+</html>

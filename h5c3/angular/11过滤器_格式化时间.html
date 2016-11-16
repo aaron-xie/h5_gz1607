@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>11过滤器_格式化时间</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		angular.module('myApp',[])
+
+		.controller('mainCtrl',function($scope){
+			$scope.now = new Date();
+			$scope.cnweek = {
+				mon:'星期一'
+			}
+		})
+	</script>
+</head>
+<body>
+	<div ng-controller="mainCtrl">
+		<p><span ng-non-bindable>{{now|date:'medium'}} ==> </span> {{now|date:'medium'}}</p>
+		<p><span ng-non-bindable>{{now|date:'short'}} ==> </span>{{now|date:'short'}}</p>
+		<p><span ng-non-bindable>{{now|date:'yyyy-MMMM-dd'}} ==> </span>{{now|date:'yyyy-MM-dd hh:mm:ss'}}</p>
+	</div>
+</body>
+</html>

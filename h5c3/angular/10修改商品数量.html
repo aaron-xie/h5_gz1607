@@ -13,13 +13,15 @@
 
 		.controller('myCtrl',function($scope){
 			$scope.price = 10998;
+
+			$scope.buyQty = 10992266.9257;
 		});
 	</script>
 </head>
 <body ng-controller="myCtrl">
 	<!-- 使用过滤器的格式：| 过滤器名称 -->
 	<p>价格：<span>{{price | currency:'￥'}}</span></p>
-	<p>价格：<span>{{price | number}}</span></p>
+	<p>购买数量：<span>{{buyQty | number:2}}</span></p>
 	<div class="qty">
 		<span class="sub" ng-click="qty=qty-1">-</span>
 		<input type="text" ng-model="qty" ng-init="qty=0">

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>14自定义</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		angular.module('myApp',[])
+
+		.controller('mainCtrl',function($scope,$filter){
+
+			// 在控制器中使用过滤器
+			// 利用注入的方式来实现
+
+			
+			// 初始化
+			$scope.numbers = [1,2,20,50,11,21,12];
+			// $scope.price = currencyFilter(998,'￥');
+			$scope.price = $filter('currency')(998,'￥');
+
+			$scope.now = $filter('date')(new Date(),'yyyy-MM-dd');
+
+			// 方法
+		})
+
+		// 自定义过滤器
+		// filter
+		.filter('suibian',function(){
+
+			// 返回一个闭包函数
+			return function(arr,num){
+				var res = arr.filter(function(item){
+					return item > num
+				});
+
+				// 一定要有返回值
+				return res;
+			}
+		});
+	</script>
+</head>
+<body ng-controller="mainCtrl">
+	<p>价格:{{price}}</p>
+	<p>时间:{{now}}</p>
+	<ul>
+		<li ng-repeat="num in numbers|suibian:20">
+			{{num}}
+		</li>
+	</ul>
+</body>
+</html>

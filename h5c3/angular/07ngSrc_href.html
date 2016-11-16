@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>07ngSrc & ngHref</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		// 创建一个模块
+		var app = angular.module('myApp',[]);
+
+		app.controller('myCtrl',function($scope){
+			$scope.music = [
+				{
+					name:'我们屯里的人',
+					singer:'刘德华',
+					tx:'http://ting.baidu.com/ldh.jpg',
+					hot:56458655,
+					link:'http://ting.baidu.com/wmdldr.mp3'
+				},
+				{
+					name:'忘情水',
+					singer:'刘德华',
+					tx:'http://ting.baidu.com/ldh.jpg',
+					hot:564586565,
+					link:'http://ting.baidu.com/wqs.mp3'
+				},
+				{
+					name:'十年',
+					singer:'陈奕迅',
+					tx:'http://ting.baidu.com/cyx.jpg',
+					hot:56458655,
+					link:'http://ting.baidu.com/sn.mp3'
+				},
+				{
+					name:'五环之歌',
+					singer:'岳云鹏',
+					tx:'http://ting.baidu.com/yyp.jpg',
+					hot:26458655,
+					link:'http://ting.baidu.com/whzg.mp3'
+				}
+			]
+		});
+	</script>
+</head>
+<body ng-controller="myCtrl">
+	<ul>
+		<li ng-repeat="item in music"><a ng-href="item.link"><img ng-src="item.tx"/>{{item.singer + ' - ' + item.name}}</a></li>
+	</ul>
+</body>
+</html>

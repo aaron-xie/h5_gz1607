@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>06ngShow</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		// 创建一个模块
+		var app = angular.module('myApp',[]);
+
+		app.controller('myCtrl',function($scope){
+			$scope.isShow = true;
+
+			// 显示隐藏
+			$scope.show = function(){
+				$scope.isShow = !$scope.isShow;
+			}
+		});
+	</script>
+</head>
+<body ng-controller="myCtrl">
+	<button ng-click="show()">{{isShow?'隐藏':'显示'}}</button>
+	<div ng-show="isShow"><img src="img/yy_6.jpg" alt=""></div>
+	<div ng-hide="isShow"><img src="img/mm001.jpg" alt=""></div>
+	<div ng-if="isShow"><img src="img/mm002.jpg" alt=""></div>
+</body>
+</html>

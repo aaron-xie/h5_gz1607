@@ -44,7 +44,7 @@ AngularJS诞生于2009年，由Misko Hevery 等人创建（后为Google所收购
     var myApp = angular.module('MyApp');
     ```
 
-##控制器Controller
+##控制器（Controller）
 **控制器的三种主要职责：**
 
 * 为应用中的模型设置初始状态
@@ -98,6 +98,153 @@ myApp.controller('HelloController', function($scope) {
 * ng-model
 
 
+##常用指令(directive)
+* ng-app
+* ng-controller
+* ng-model
+* ng-click
+* ng-class
+* ng-repeat
+* ng-show
+* ng-hide
+* ng-if
+* ng-src
+* ng-href
+* ng-include
+    - onload:页面加载完成后执行
+    - scope:
+* ng-bind
+* ng-bind-html
+    - $sce.trustAsHtml()经过此方法处理的html才能显示到页面
+* ng-non-bindable
+
+
+##过滤器（filter）
+使用管道字符（|）把过滤器添加到表达式或指令中
+
+* 基本过滤器
+>{{ expression | filter }} 
+
+* 链式过滤器
+>{{ expression | filter1 | filter2 | ... }}
+
+* 多参数过滤器
+>{{ expression | filter:argument1:argument2:... }}
+
+###内置过滤器
+* currency 格式化数字为货币格式。
+```
+{{ currency_expression | currency : symbol}}
+```
+    - symbol 可选，默认为$
+
+* number 格式化数字到文本
+number过滤器可以为一个数字加上千位分割(12,345,678)。
+```
+{{ number_expression | number : fractionSize}}
+
+$scope.num = 12345678;
+{{num|number:2}}//12,345,678.00
+```
+    - fractionSize，指定保留几位小数（可选）
+
+* date 格式化日期
+```
+{{ date_expression | date : format}}
+```
+    - format可选
+
+* json 把js对象转换成JSON字符串,与JSON.stringify()相同
+    - 使用双花括号的绑定会自动转换成JSON
+
+* lowercase   格式化字符串为小写。
+* uppercase   格式化字符串为大写。
+* orderBy 根据某个表达式排列数组。
+```
+{{ orderBy_expression | orderBy : expression : reverse}}
+```
+    - expression，一个用于通过比较来决定元素顺序的声明，类型可以为：
+        + Function: 这个函数的结果可使用 <, =, >操作符进行排序。 
+        + string: 一个Angular表达式，对一个对象求值来排序，如用'name'来对属性名为'name'排序。用可选前缀 + 或 -来确定是正序或倒序 (例如，+name or -name)。 
+        + Array: 一个函数或字符串声明数组。数组中的第一个声明用于排序，但是当两个条目相等时，会用下一个声明。
+    - reverse 是否对数组进行反向排序(布尔值，可选)
+    [表格排序]
+
+* limitTo 选取前N个记录
+```
+{{ limitTo_expression | limitTo : limit}}
+```
+
+* filter
+```
+{{ expression | filter : expression}}
+```
+* string，如：'a'，匹配属性值中含有'a'的数组项
+* object,如：{name:'i'}，匹配name属性值中含有'i'的数组项
+* function
+
+
+###自定义过滤器
+```
+app.filter('filterName', function(){
+    return function(inputArray,param1,param2...){
+        return result;
+    }
+});
+```
+
+
+##表单
+
+###双向数据绑定
+ng-model
+
+###验证
+>AngularJS自带了对表单或控件的输入数据进行验证的功能，对于Html5的基础控件均有内建的验证器
+
+* 以下列举了所有支持的验证类型：
+    - email
+    - max
+    - maxlength
+    - min
+    - minlength
+    - number
+    - pattern
+    - required
+    - url
+    - date
+    - datetimelocal
+    - time
+    - week
+    - month
+* 验证样式
+>AngularJS会在元素上自动添加如下样式
+    - ng-invalid: 验证失败
+    - ng-valid: 验证通过
+    - ng-valid-[key]: 由$setValidity添加的所有验证通过的值
+    - ng-invalid-[key]: 由$setValidity添加的所有验证失败的值
+    - ng-pristine: 控件为初始状态
+    - ng-dirty: 控件输入值已变更
+    - ng-touched: 控件已失去焦点
+    - ng-untouched: 控件未失去焦点
+    - ng-pending: 任何为满足$asyncValidators的情况
+* 内建的状态值
+    - $pristine：初始化状态
+    - $dirty：内容已变更
+    - $valid：验证通过
+    - $invalid：验证失败
+    - $submitted：已提交
+    - $error：所有验证失败的hash对象
+    - $$success：所有验证通过的hash对象
+    - $pending：所有pending（异步验证）的hash对象
+
+###事件
+* ng-focus
+* ng-blur
+* ng-change
+* ng-checked
+* ng-value
+* ng-submit
 
 ---
 *MVC*

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>09ngBind</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		// 创建一个模块
+		var app = angular.module('myApp',[]);
+		console.log(app)
+
+		// 注入$scope,$sce
+		app.controller('myCtrl',function($scope,$sce){
+			$scope.content = $sce.trustAsHtml("html5 <strong>1607</strong>")
+		});
+
+		
+		// 定义一个过滤器
+		app.filter('outputhtml',function($sce){
+
+			// 闭包
+			// 闭包函数的第一个参数为绑定的数据
+			return function(data){
+				console.log(data);
+
+				return $sce.trustAsHtml(data);
+			}
+		})
+	</script>
+</head>
+<body ng-controller="myCtrl">
+	<div ng-bind="content"></div>
+	<p><span ng-non-bindable>{{content}} => </span> {{content}}</p>
+
+	<!-- 过滤器 -->
+	<div ng-bind-html="content"></div>
+</body>
+</html>

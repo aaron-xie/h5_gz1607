@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>08ngInclude</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		// 创建一个模块
+		var app = angular.module('myApp',[]);
+
+		app.controller('myCtrl',function($scope){
+			$scope.file = {
+				header:'08header.html',
+				footer:'08footer.html'
+			}
+		});
+	</script>
+</head>
+<body ng-controller="myCtrl">
+	<header ng-include="file.header"></header>
+	<div class="container">
+		正文
+	</div>
+	<footer ng-include="file.footer"></footer>
+</body>
+</html>

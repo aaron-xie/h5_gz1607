@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>修改商品数量</title>
+	<script src="lib/angular/angular.js"></script>
+	<style>
+		.qty{display:flex;}
+		.qty span{padding:0 5px;border:1px solid #ccc;background-color:#efefef;}
+	</style>
+	<script>
+		angular.module('myApp',[])
+
+		.controller('myCtrl',function($scope){
+			$scope.price = 10998;
+		});
+	</script>
+</head>
+<body ng-controller="myCtrl">
+	<!-- 使用过滤器的格式：| 过滤器名称 -->
+	<p>价格：<span>{{price | currency:'￥'}}</span></p>
+	<p>价格：<span>{{price | number}}</span></p>
+	<div class="qty">
+		<span class="sub" ng-click="qty=qty-1">-</span>
+		<input type="text" ng-model="qty" ng-init="qty=0">
+		<span class="add" ng-click="qty=qty+1">+</span>
+	</div>
+</body>
+</html>

@@ -1019,7 +1019,7 @@ body .markdown-body
 <li><a href="#angularjs">angularjs</a><ul>
 <li><a href="#_1">简介</a></li>
 <li><a href="#_2">使用步骤</a></li>
-<li><a href="#controller">控制器Controller</a><ul>
+<li><a href="#controller">控制器（Controller）</a><ul>
 <li><a href="#_3">创建控制器</a></li>
 <li><a href="#_4">使用控制器</a></li>
 <li><a href="#scope">$scope</a></li>
@@ -1029,6 +1029,18 @@ body .markdown-body
 <li><a href="#_6">表达式</a></li>
 <li><a href="#_7">单向数据绑定</a></li>
 <li><a href="#_8">双向数据绑定</a></li>
+</ul>
+</li>
+<li><a href="#directive">常用指令(directive)</a></li>
+<li><a href="#filter">过滤器（filter）</a><ul>
+<li><a href="#_9">内置过滤器</a></li>
+<li><a href="#_10">自定义过滤器</a></li>
+</ul>
+</li>
+<li><a href="#_11">表单</a><ul>
+<li><a href="#_12">双向数据绑定</a></li>
+<li><a href="#_13">验证</a></li>
+<li><a href="#_14">事件</a></li>
 </ul>
 </li>
 </ul>
@@ -1087,7 +1099,7 @@ var myApp = angular.module('MyApp');
 
 </li>
 </ol>
-<h2 id="controller"><a name="user-content-controller" href="#controller" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>控制器Controller</h2>
+<h2 id="controller"><a name="user-content-controller" href="#controller" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>控制器（Controller）</h2>
 <p><strong>控制器的三种主要职责：</strong></p>
 <ul>
 <li>为应用中的模型设置初始状态</li>
@@ -1144,6 +1156,191 @@ var myApp = angular.module('MyApp');
 </blockquote>
 <ul>
 <li>ng-model</li>
+</ul>
+<h2 id="directive"><a name="user-content-directive" href="#directive" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>常用指令(directive)</h2>
+<ul>
+<li>ng-app</li>
+<li>ng-controller</li>
+<li>ng-model</li>
+<li>ng-click</li>
+<li>ng-class</li>
+<li>ng-repeat</li>
+<li>ng-show</li>
+<li>ng-hide</li>
+<li>ng-if</li>
+<li>ng-src</li>
+<li>ng-href</li>
+<li>ng-include<ul>
+<li>onload:页面加载完成后执行</li>
+<li>scope:</li>
+</ul>
+</li>
+<li>ng-bind</li>
+<li>ng-bind-html<ul>
+<li>$sce.trustAsHtml()经过此方法处理的html才能显示到页面</li>
+</ul>
+</li>
+<li>ng-non-bindable</li>
+</ul>
+<h2 id="filter"><a name="user-content-filter" href="#filter" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>过滤器（filter）</h2>
+<p>使用管道字符（|）把过滤器添加到表达式或指令中</p>
+<ul>
+<li>
+<p>基本过滤器</p>
+<blockquote>
+<p>{{ expression | filter }} </p>
+</blockquote>
+</li>
+<li>
+<p>链式过滤器</p>
+<blockquote>
+<p>{{ expression | filter1 | filter2 | &hellip; }}</p>
+</blockquote>
+</li>
+<li>
+<p>多参数过滤器</p>
+<blockquote>
+<p>{{ expression | filter:argument1:argument2:&hellip; }}</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="_9"><a name="user-content-_9" href="#_9" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>内置过滤器</h3>
+<ul>
+<li>
+<p>currency 格式化数字为货币格式。<br />
+<pre><code>{{ currency_expression | currency : symbol}}
+</code></pre></p>
+<ul>
+<li>symbol 可选，默认为$</li>
+</ul>
+</li>
+<li>
+<p>number 格式化数字到文本<br />
+number过滤器可以为一个数字加上千位分割(12,345,678)。<br />
+<pre><code>{{ number_expression | number : fractionSize}}
+
+$scope.num = 12345678;
+{{num|number:2}}//12,345,678.00
+</code></pre></p>
+<ul>
+<li>fractionSize，指定保留几位小数（可选）</li>
+</ul>
+</li>
+<li>
+<p>date 格式化日期<br />
+<pre><code>{{ date_expression | date : format}}
+</code></pre></p>
+<ul>
+<li>format可选</li>
+</ul>
+</li>
+<li>
+<p>json 把js对象转换成JSON字符串,与JSON.stringify()相同</p>
+<ul>
+<li>使用双花括号的绑定会自动转换成JSON</li>
+</ul>
+</li>
+<li>
+<p>lowercase   格式化字符串为小写。</p>
+</li>
+<li>uppercase   格式化字符串为大写。</li>
+<li>
+<p>orderBy 根据某个表达式排列数组。<br />
+<pre><code>{{ orderBy_expression | orderBy : expression : reverse}}
+</code></pre></p>
+<ul>
+<li>expression，一个用于通过比较来决定元素顺序的声明，类型可以为：<ul>
+<li>Function: 这个函数的结果可使用 &lt;, =, &gt;操作符进行排序。 </li>
+<li>string: 一个Angular表达式，对一个对象求值来排序，如用&rsquo;name&rsquo;来对属性名为&rsquo;name&rsquo;排序。用可选前缀 + 或 -来确定是正序或倒序 (例如，+name or -name)。 </li>
+<li>Array: 一个函数或字符串声明数组。数组中的第一个声明用于排序，但是当两个条目相等时，会用下一个声明。</li>
+</ul>
+</li>
+<li>reverse 是否对数组进行反向排序(布尔值，可选)<br />
+[表格排序]</li>
+</ul>
+</li>
+<li>
+<p>limitTo 选取前N个记录<br />
+<pre><code>{{ limitTo_expression | limitTo : limit}}
+</code></pre></p>
+</li>
+<li>
+<p>filter<br />
+<pre><code>{{ expression | filter : expression}}
+</code></pre></p>
+</li>
+<li>string，如：&rsquo;a&rsquo;，匹配属性值中含有&rsquo;a&rsquo;的数组项</li>
+<li>object,如：{name:&rsquo;i&rsquo;}，匹配name属性值中含有&rsquo;i&rsquo;的数组项</li>
+<li>function</li>
+</ul>
+<h3 id="_10"><a name="user-content-_10" href="#_10" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>自定义过滤器</h3>
+<pre><code>app.filter('filterName', function(){
+    return function(inputArray,param1,param2...){
+        return result;
+    }
+});
+</code></pre>
+
+<h2 id="_11"><a name="user-content-_11" href="#_11" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>表单</h2>
+<h3 id="_12"><a name="user-content-_12" href="#_12" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>双向数据绑定</h3>
+<p>ng-model</p>
+<h3 id="_13"><a name="user-content-_13" href="#_13" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>验证</h3>
+<blockquote>
+<p>AngularJS自带了对表单或控件的输入数据进行验证的功能，对于Html5的基础控件均有内建的验证器</p>
+</blockquote>
+<ul>
+<li>以下列举了所有支持的验证类型：<ul>
+<li>email</li>
+<li>max</li>
+<li>maxlength</li>
+<li>min</li>
+<li>minlength</li>
+<li>number</li>
+<li>pattern</li>
+<li>required</li>
+<li>url</li>
+<li>date</li>
+<li>datetimelocal</li>
+<li>time</li>
+<li>week</li>
+<li>month</li>
+</ul>
+</li>
+<li>验证样式<blockquote>
+<p>AngularJS会在元素上自动添加如下样式</p>
+</blockquote>
+<ul>
+<li>ng-invalid: 验证失败</li>
+<li>ng-valid: 验证通过</li>
+<li>ng-valid-[key]: 由$setValidity添加的所有验证通过的值</li>
+<li>ng-invalid-[key]: 由$setValidity添加的所有验证失败的值</li>
+<li>ng-pristine: 控件为初始状态</li>
+<li>ng-dirty: 控件输入值已变更</li>
+<li>ng-touched: 控件已失去焦点</li>
+<li>ng-untouched: 控件未失去焦点</li>
+<li>ng-pending: 任何为满足$asyncValidators的情况</li>
+</ul>
+</li>
+<li>内建的状态值<ul>
+<li>$pristine：初始化状态</li>
+<li>$dirty：内容已变更</li>
+<li>$valid：验证通过</li>
+<li>$invalid：验证失败</li>
+<li>$submitted：已提交</li>
+<li>$error：所有验证失败的hash对象</li>
+<li>$$success：所有验证通过的hash对象</li>
+<li>$pending：所有pending（异步验证）的hash对象</li>
+</ul>
+</li>
+</ul>
+<h3 id="_14"><a name="user-content-_14" href="#_14" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>事件</h3>
+<ul>
+<li>ng-focus</li>
+<li>ng-blur</li>
+<li>ng-change</li>
+<li>ng-checked</li>
+<li>ng-value</li>
+<li>ng-submit</li>
 </ul>
 <hr />
 <p><em>MVC</em></p>

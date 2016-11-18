@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>18ngRepeat作用域</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		angular.module('myApp',[])
+
+		.controller('mainController',function($rootScope,$http,$scope){
+			$scope.name = '马丹';
+			$scope.age = 50;
+			$scope.list = ['马蓉','马云',''];
+			/*$scope.list = [{
+				name:'马蓉',
+				gender:'女',
+				age:28
+			},
+			{
+				name:'马云',
+				gender:'男',
+				age:52
+			},
+			{
+				gender:'男',
+				age:52
+			}
+			]*/
+		})
+
+		// 约定：先注入内置服务（带$的服务），后注入自定义服务（不带$）
+		// 
+		.controller('testController', [
+			'$scope',
+			'$http',
+			'$rootScope', 
+			function($scope,$http,$rootScope){
+				console.log($scope)
+				console.log($rootScope)
+				console.log($http)
+			}
+		])
+	</script>
+</head>
+<body ng-controller="mainController">
+	<ul>
+		<li ng-repeat="name in list">
+			{{name}}
+			{{age}}
+		</li>
+	</ul>
+	{{name}}
+	<div ng-controller="testController">
+		
+	</div>
+</body>
+</html>

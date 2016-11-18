@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>利用angular-messages实现表单验证</title>
+	<script src="lib/angular/angular.js"></script>
+
+	<!-- 1.先引入文件，才能依赖注入 -->
+	<script src="lib/angular-messages/angular-messages.js"></script>
+
+	<script>
+		// 2. 模块依赖
+		angular.module('myApp',['ngMessages'])
+
+		.controller('validController',function($scope,$rootScope){
+			$scope.name = '马云';
+			$rootScope.name = '马蓉';
+
+			console.log($rootScope);
+		})
+
+		.controller('myController',function($scope){
+			$scope.name = '马丹';
+		})
+
+		.controller('yourController',function($scope){
+			
+		})
+	</script>
+</head>
+<body>
+	<form name="loginForm" ng-controller="validController">
+		用户名：<input type="text" name="username" ng-model="username" ng-minlength="3" ng-maxlength="12" required>
+		<p ng-show="loginForm.username.$dirty" ng-messages="loginForm.username.$error">
+			<span ng-message="required">必填</span>
+			<span ng-message="minlength || maxlength">用户名长度必须在3-12个字符</span>
+		</p>
+		<p>{{name}}</p>
+	</form>
+	<div ng-controller="myController">
+		{{name}}
+	</div>
+	<p>{{name}}</p>
+	<div ng-controller="yourController">
+		{{name}}
+	</div>
+</body>
+</html>

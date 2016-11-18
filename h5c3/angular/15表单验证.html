@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>15表单验证</title>
+	<style>
+		.from-group{margin:10px;}
+		.from-group label{display: inline-block;width:100px;text-align: right;}
+		button[type=submit]{margin-left:120px;}
+
+		input.ng-invalid.ng-dirty{color:#f00;background-color:#ffc;border:1px solid #c00;}
+		input.ng-valid.ng-dirty{border-color:#0f0;}
+
+		.error{color:#f00;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		angular.module('app',[])
+
+		.controller('validController',function($scope){
+			$scope.user = {};
+		});
+	</script>
+</head>
+<body>
+	<h1>注册</h1>
+	<form name="loginForm" ng-controller="validController" novalidate>
+		<div class="from-group username">
+			<label for="username">用户名：</label>
+			<input type="text" name="username" ng-model="user.name" required>
+			<span ng-show="loginForm.username.$dirty && loginForm.username.$invalid" class="error">用户必填</span>
+		</div>
+		<div class="from-group">
+			<label for="password">密码：</label>
+			<input type="password" name="password" ng-model="user.password">
+		</div>
+		<div class="from-group">
+			<label for="email">Email：</label>
+			<input type="email" name="email" ng-model="user.email" required>
+			<span ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
+				<span ng-show="loginForm.email.$error.required">邮箱不能为空</span>
+				<span ng-show="loginForm.email.$error.email">邮箱格式不正确</span>
+			</span>
+		</div>
+		<button type="submit">提交</button>
+	</form>
+</body>
+</html>

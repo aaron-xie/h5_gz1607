@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="main">
+<head>
+	<meta charset="UTF-8">
+	<title>19模块化</title>
+	<script src="lib/angular/angular.js"></script>
+	<script src="js/controller.js"></script>
+	<script>
+		// 创建一个模块
+		var app = angular.module('main',['mainCtrl']);
+		app.controller('indexController',[
+			'$scope',
+			function($scope){
+				$scope.name = '不归之路';
+			}
+		]);
+	</script>
+</head>
+<body ng-controller="indexController">
+	<div ng-controller="homeController">
+		{{name}}
+	</div>
+	<!-- <img ng-src="{{img.url}}" alt="">//第一次无效的请求，第二次请求
+	<a ng-href=""></a> -->
+</body>
+</html>

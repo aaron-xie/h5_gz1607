@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全局作用与局部作用域</title>
+	<script>
+		var testName = '马云';
+		(function(){
+			var testName = '林丹';
+			function getName(){
+				var testName = '马蓉';
+
+				console.log(testName);
+			}
+
+			function getName2(){
+				console.log(testName)
+			}
+
+			window.getName = getName;
+			window.getName2 = getName2;
+		})();
+		
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

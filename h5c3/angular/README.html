@@ -1031,7 +1031,7 @@ body .markdown-body
 <li><a href="#_8">双向数据绑定</a></li>
 </ul>
 </li>
-<li><a href="#directive">常用指令(directive)</a></li>
+<li><a href="#directive">内置指令(directive)</a></li>
 <li><a href="#filter">过滤器（filter）</a><ul>
 <li><a href="#_9">内置过滤器</a></li>
 <li><a href="#_10">自定义过滤器</a></li>
@@ -1041,7 +1041,19 @@ body .markdown-body
 <li><a href="#_11">表单</a><ul>
 <li><a href="#_12">双向数据绑定</a></li>
 <li><a href="#_13">验证</a></li>
-<li><a href="#_14">事件</a></li>
+<li><a href="#_14">表单指令</a></li>
+<li><a href="#_15">事件</a></li>
+</ul>
+</li>
+<li><a href="#_16">依赖注入</a><ul>
+<li><a href="#_17">创建可被注入的服务</a></li>
+<li><a href="#_18">能被注入的函数</a></li>
+<li><a href="#_19">依赖注入的应用</a></li>
+</ul>
+</li>
+<li><a href="#_20">自定义指令</a></li>
+<li><a href="#_21">路由</a><ul>
+<li><a href="#_22">单页面应用</a></li>
 </ul>
 </li>
 </ul>
@@ -1058,7 +1070,8 @@ body .markdown-body
 <ul>
 <li>MVC</li>
 <li>模块化</li>
-<li>双向数据绑定和依赖注入</li>
+<li>双向数据绑定</li>
+<li>依赖注入</li>
 <li>指令系统</li>
 </ul>
 <p><strong>AngularJS的优点</strong></p>
@@ -1158,7 +1171,7 @@ var myApp = angular.module('MyApp');
 <ul>
 <li>ng-model</li>
 </ul>
-<h2 id="directive"><a name="user-content-directive" href="#directive" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>常用指令(directive)</h2>
+<h2 id="directive"><a name="user-content-directive" href="#directive" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>内置指令(directive)</h2>
 <ul>
 <li>ng-app</li>
 <li>ng-controller</li>
@@ -1308,7 +1321,7 @@ $scope.num = 12345678;
 <p>ng-model</p>
 <h3 id="_13"><a name="user-content-_13" href="#_13" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>验证</h3>
 <blockquote>
-<p>AngularJS自带了对表单或控件的输入数据进行验证的功能，对于Html5的基础控件均有内建的验证器</p>
+<p>AngularJS自带了对表单或控件的输入数据进行验证的功能，对于Html5的基础控件均有内建的验证器（写上HTML5属性或表单类型，自动获得验证规则）</p>
 </blockquote>
 <ul>
 <li>以下列举了所有支持的验证类型：<ul>
@@ -1343,19 +1356,34 @@ $scope.num = 12345678;
 <li>ng-pending: 任何为满足$asyncValidators的情况</li>
 </ul>
 </li>
-<li>内建的状态值<ul>
+<li>
+<p>内建的状态值</p>
+<ul>
 <li>$pristine：初始化状态</li>
 <li>$dirty：内容已变更</li>
 <li>$valid：验证通过</li>
 <li>$invalid：验证失败</li>
 <li>$submitted：已提交</li>
-<li>$error：所有验证失败的hash对象</li>
-<li>$$success：所有验证通过的hash对象</li>
-<li>$pending：所有pending（异步验证）的hash对象</li>
+<li>$error：表单验证信息，验证不通过时返回相应信息。</li>
 </ul>
 </li>
+<li>
+<p>注意事项：</p>
+<ol>
+<li>在form上加了一个novalidate，用来禁止掉浏览器默认的验证行为，因为ng已经对HTML5的几种表单新特性做了兼容处理。</li>
+<li>表单元素必须有ng-model和name属性，否则无法触发验证</li>
+<li>在css中分别定义.ng-pristine、.ng-dirty、.ng-valid、.ng-invalid这四种样式，ng会根据相应的状态自动加上样式。</li>
+</ol>
+</li>
 </ul>
-<h3 id="_14"><a name="user-content-_14" href="#_14" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>事件</h3>
+<h3 id="_14"><a name="user-content-_14" href="#_14" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>表单指令</h3>
+<ul>
+<li>from,input,input[checkbox],input[email],input[number],input[radio],input[text],input[url],select,textarea都是angular增强后的指令</li>
+<li>ng-minlength</li>
+<li>ng-maxlength</li>
+<li>ng-pattern</li>
+</ul>
+<h3 id="_15"><a name="user-content-_15" href="#_15" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>事件</h3>
 <ul>
 <li>ng-focus</li>
 <li>ng-blur</li>
@@ -1364,10 +1392,89 @@ $scope.num = 12345678;
 <li>ng-value</li>
 <li>ng-submit</li>
 </ul>
+<h2 id="_16"><a name="user-content-_16" href="#_16" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>依赖注入</h2>
+<blockquote>
+<p>依赖注入（Dependency Injection，简称DI）是一种软件设计模式</p>
+</blockquote>
+<h3 id="_17"><a name="user-content-_17" href="#_17" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>创建可被注入的服务</h3>
+<blockquote>
+<p>什么时服务：服务是一个函数或对象，是对一些常用功能的封装，定义后可在你的AngularJS应用中随意使用，AngularJS内建了30多个服务（如$http,$filter等）。同样也可以创建自定义服务</p>
+</blockquote>
+<ul>
+<li>
+<p>Provider服务（$provide）</p>
+<blockquote>
+<p>$provide服务负责告诉Angular如何创造一个新的可注入的东西：即服务(service)。你需要使用$provide中的provider方法来定义一个provider</p>
+</blockquote>
+<p><strong>如何获取$provide服务：</strong><br />
+<pre><code>var app = angular.module('myApp',[]);
+app.config(function($provide){
+    $provide.provider('mySev',function(){
+        this.$get = function() {
+            var factory = {};  
+            factory.multiply = function(a, b) {
+                return a * b; 
+            }
+            return factory;
+        };
+    })
+})
+</code></pre></p>
+</li>
+<li>
+<p>provider<br />
+需要给当前对象定义$get函数，并且$get函数必须有返回值，注入服务时得到的就是$get函数返回的值（如上面的案例）</p>
+</li>
+<li>factory<br />
+provider的简化版本，等于provider中的$get函数（相当于省略$get函数的定义），注入服务时得到的时此函数的返回值</li>
+<li>service<br />
+provider的简化版本，注入服务时得到当前对象（函数中的this）</li>
+<li>value<br />
+一般用于定义返回的值永远相同的服务</li>
+<li>constant<br />
+常量设置，一般用于全局变量的定义，与value类似，但constant能在config阶段被注入</li>
+</ul>
+<p><em>由于定义一个新的provider是如此的常用，AngularJS在模块对象上直接暴露了provider方法，以此来减少代码的输入量，因此我们可以这样写代码</em><br />
+<pre><code>var app = angular.module('myApp',[]);
+app.provider('mySev',function(){});
+app.factory('mySev',function(){});
+app.service('mySev',function(){});
+</code></pre></p>
+<h3 id="_18"><a name="user-content-_18" href="#_18" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>能被注入的函数</h3>
+<ul>
+<li>控制器定义函数</li>
+<li>过滤器定义函数</li>
+<li>指令定义函数</li>
+<li>provider中的$get方法（也就是factory函数）</li>
+<li>config阶段<br />
+<code>注意的是在config阶段，只有provider和constant能被注入（例外:$provide和$injector)</code></li>
+<li>run阶段</li>
+</ul>
+<blockquote>
+<p>由于constant和value总是返回一个静态值，它们不会通过注入器被调用，因此你不能在其中注入任何东西。</p>
+</blockquote>
+<h3 id="_19"><a name="user-content-_19" href="#_19" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>依赖注入的应用</h3>
+<ul>
+<li>注入器（$injector）</li>
+<li>
+<p>模块依赖</p>
+</li>
+<li>
+<p>注入服务</p>
+</li>
+<li>
+<p>angular全局变量</p>
+</li>
+</ul>
+<h2 id="_20"><a name="user-content-_20" href="#_20" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>自定义指令</h2>
+<h2 id="_21"><a name="user-content-_21" href="#_21" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>路由</h2>
+<h3 id="_22"><a name="user-content-_22" href="#_22" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>单页面应用</h3>
 <hr />
 <p><em>MVC</em></p>
 <ul>
 <li>Model(模型)：处理数据和业务逻辑</li>
 <li>View(视图)：以友好的方式向用户展示数据</li>
 <li>Controler(控制器)：组织调度相应的处理模型</li>
-</ul></article></body></html>
+</ul>
+<p><em>Angular应用运行过程</em></p>
+<p>AngularJS分两个阶段运行你的应用 – config阶段和run阶段。config阶段是你设置任何的provider的阶段。它也是你设置任何的指令，控制器，过滤器以及其它东西的阶段。在run阶段，AngularJS会编译你的DOM并启动你的应用。</p></article></body></html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="querySchool">
+<head>
+	<meta charset="UTF-8">
+	<title>学校查询</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<style>
+		.btn-success{color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script src="js/controller.js"></script>
+	<script src="js/app.js"></script>
+</head>
+<body>
+	<div class="container" ng-controller="homeController">
+		<h1 class="page-header">学校查询<small>{{time}}</small></h1>
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="school">
+			<span class="input-group-addon btn btn-success" ng-click="getSchool(school)">
+				<i class="glyphicon glyphicon-search"></i>
+				查询
+			</span>
+		</div>
+		<p class="text-danger" ng-show="hasError">请求失败</p>
+		<div class="list-group">
+			<a href="#" class="list-group-item" ng-repeat="sc in list">
+			<h4 class="list-group-item-heading">{{sc.name}}</h4>
+			<p class="list-group-item-text">地址：{{sc.address}}</p>
+			<p class="list-group-item-text">电话：{{sc.phone}}</p>
+			</a>
+		</div>
+	</div>
+	<div ng-controller="listController"></div>
+</body>
+</html>

@@ -10,7 +10,8 @@ AngularJS诞生于2009年，由Misko Hevery 等人创建（后为Google所收购
 
 * MVC
 * 模块化
-* 双向数据绑定和依赖注入
+* 双向数据绑定
+* 依赖注入
 * 指令系统
 
 
@@ -98,7 +99,7 @@ myApp.controller('HelloController', function($scope) {
 * ng-model
 
 
-##常用指令(directive)
+##内置指令(directive)
 * ng-app
 * ng-controller
 * ng-model
@@ -215,7 +216,7 @@ $filter('currency')(amount, symbol)
 ng-model
 
 ###验证
->AngularJS自带了对表单或控件的输入数据进行验证的功能，对于Html5的基础控件均有内建的验证器
+>AngularJS自带了对表单或控件的输入数据进行验证的功能，对于Html5的基础控件均有内建的验证器（写上HTML5属性或表单类型，自动获得验证规则）
 
 * 以下列举了所有支持的验证类型：
     - email
@@ -249,9 +250,19 @@ ng-model
     - $valid：验证通过
     - $invalid：验证失败
     - $submitted：已提交
-    - $error：所有验证失败的hash对象
-    - $$success：所有验证通过的hash对象
-    - $pending：所有pending（异步验证）的hash对象
+    - $error：表单验证信息，验证不通过时返回相应信息。
+
+* 注意事项：
+    1. 在form上加了一个novalidate，用来禁止掉浏览器默认的验证行为，因为ng已经对HTML5的几种表单新特性做了兼容处理。
+    2. 表单元素必须有ng-model和name属性，否则无法触发验证
+    3. 在css中分别定义.ng-pristine、.ng-dirty、.ng-valid、.ng-invalid这四种样式，ng会根据相应的状态自动加上样式。
+
+
+###表单指令
+* from,input,input[checkbox],input[email],input[number],input[radio],input[text],input[url],select,textarea都是angular增强后的指令
+* ng-minlength
+* ng-maxlength
+* ng-pattern
 
 ###事件
 * ng-focus
@@ -261,10 +272,87 @@ ng-model
 * ng-value
 * ng-submit
 
+
+##依赖注入
+>依赖注入（Dependency Injection，简称DI）是一种软件设计模式
+
+###创建可被注入的服务
+>什么时服务：服务是一个函数或对象，是对一些常用功能的封装，定义后可在你的AngularJS应用中随意使用，AngularJS内建了30多个服务（如$http,$filter等）。同样也可以创建自定义服务
+
+* Provider服务（$provide）
+>$provide服务负责告诉Angular如何创造一个新的可注入的东西：即服务(service)。你需要使用$provide中的provider方法来定义一个provider
+
+    **如何获取$provide服务：**
+    ```
+    var app = angular.module('myApp',[]);
+    app.config(function($provide){
+        $provide.provider('mySev',function(){
+            this.$get = function() {
+                var factory = {};  
+                factory.multiply = function(a, b) {
+                    return a * b; 
+                }
+                return factory;
+            };
+        })
+    })
+    ```
+
+* provider
+需要给当前对象定义$get函数，并且$get函数必须有返回值，注入服务时得到的就是$get函数返回的值（如上面的案例）
+* factory
+provider的简化版本，等于provider中的$get函数（相当于省略$get函数的定义），注入服务时得到的时此函数的返回值
+* service
+provider的简化版本，注入服务时得到当前对象（函数中的this）
+* value
+一般用于定义返回的值永远相同的服务
+* constant
+常量设置，一般用于全局变量的定义，与value类似，但constant能在config阶段被注入
+
+*由于定义一个新的provider是如此的常用，AngularJS在模块对象上直接暴露了provider方法，以此来减少代码的输入量，因此我们可以这样写代码*
+```
+var app = angular.module('myApp',[]);
+app.provider('mySev',function(){});
+app.factory('mySev',function(){});
+app.service('mySev',function(){});
+```
+
+###能被注入的函数
+* 控制器定义函数
+* 过滤器定义函数
+* 指令定义函数
+* provider中的$get方法（也就是factory函数）
+* config阶段
+`注意的是在config阶段，只有provider和constant能被注入（例外:$provide和$injector)`
+* run阶段
+
+>由于constant和value总是返回一个静态值，它们不会通过注入器被调用，因此你不能在其中注入任何东西。
+
+
+###依赖注入的应用
+* 注入器（$injector）
+* 模块依赖
+
+* 注入服务
+
+* angular全局变量
+
+
+
+##自定义指令
+
+##路由
+
+###单页面应用
+
 ---
 *MVC*
 
 * Model(模型)：处理数据和业务逻辑
 * View(视图)：以友好的方式向用户展示数据
 * Controler(控制器)：组织调度相应的处理模型
+
+*Angular应用运行过程*
+
+AngularJS分两个阶段运行你的应用 – config阶段和run阶段。config阶段是你设置任何的provider的阶段。它也是你设置任何的指令，控制器，过滤器以及其它东西的阶段。在run阶段，AngularJS会编译你的DOM并启动你的应用。
 

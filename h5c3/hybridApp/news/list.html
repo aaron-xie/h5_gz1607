@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>ShowAPI</title>
+	<link rel="stylesheet" href="lib/ionic/css/ionic.css">
+	<link rel="stylesheet" href="lib/swiper/dist/css/swiper.css">
+	<style>
+		html{font-size:62.5%;}
+		html,body{height:100%;}
+		body{overflow-y:auto;}
+		#mainNav{height:60px;line-height:60px;s}
+		#mainNav a{color:#fff;text-decoration: none;}
+		#mainNav li{}
+
+		.page{padding:10px;}
+		.page span{display:inline-block;margin:0 3px;width:2rem;height:2rem;line-height:2rem;border:1px solid #ddd;background-color:#fff;font-size:1rem;text-align: center;}
+		.page span.active{background-color:#387ef5;}
+	</style>
+</head>
+<body class="ionic">
+	<header class="bar bar-header bar-light">
+	  <img src="img/logo.jpg">
+	  <h4></h4>
+	  <span class="ion-search"></span>
+	</header>
+	<div class="list">
+	  
+	</div>
+	<div class="page"></div>
+	<script src="lib/zepto/zepto.js"></script>
+	<script src="lib/swiper/dist/js/swiper.js"></script>
+	<script>
+
+		function successHandle(res){
+			console.log(res)
+			// var $ul = $('<ul/>')
+
+			// 创建临时容器
+			var $fg = $(document.createDocumentFragment());
+			res.showapi_res_body.pagebean.contentlist.forEach(function(item){
+				// var $li = $('<li/>').addClass('item');
+				var $link = $('<a/>').attr({
+					href:item.link,
+					class:'item'
+				}).html(item.title);
+
+				$fg.append($link);
+			});
+
+			$fg.appendTo('.list');
+
+
+			// 分页
+			var total = res.showapi_res_body.pagebean.allPages;
+			var len = Math.min(10,total);
+			$('.page').html('');
+			for(var i=1;i<=len;i++){
+				var $span = $('<span/>');
+				if(i == res.showapi_res_body.pagebean.currentPage){
+					$span.addClass('active');
+				}
+				$span.html(i).appendTo('.page');
+			}
+		}
+		$.ajax({
+			url:'http://apis.baidu.com/showapi_open_bus/channel_news/search_news',
+			headers:{
+				apikey:'34904db6ec961521d5d34d7b710cd501'
+			},
+			data:{
+				channelId:location.hash.slice(1)
+			},
+			success:successHandle
+		});
+
+		$('.page').on('click','span',function(){
+			$.ajax({
+				url:'http://apis.baidu.com/showapi_open_bus/channel_news/search_news',
+				headers:{
+					apikey:'34904db6ec961521d5d34d7b710cd501'
+				},
+				data:{
+					channelId:location.hash.slice(1),
+					page:this.innerHTML
+				},
+				success:successHandle
+			});
+		})
+	</script>
+</body>
+</html>

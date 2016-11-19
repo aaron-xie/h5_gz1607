@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myMall">
+<head>
+	<meta charset="UTF-8">
+	<title>21单页面应用</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<style>
+		html{font-size:62.5%;}
+		.mainNav{display:flex;height:5rem;line-height:5rem;text-align:center;font-size:1.8rem;}
+		.mainNav a{flex:1;}
+		.mainNav a:hover{background-color: #efefef;text-decoration: none;}
+		.mainNav a.active{background-color: #5cb85c;color:#fff;}
+
+		.list-group-item.odd{background-color: #efefef;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular-route/angular-route.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controller.js"></script>
+</head>
+<body>
+	<div class="page-header">
+		<h1>{{page.title}}</h1>
+	</div>
+
+	<div class="container" ng-view>
+		
+	</div>
+	<footer class="navbar navbar-default navbar-fixed-bottom mainNav">
+		<a href="#/home" ng-class="{active:page.current=='home'}">
+			<i class="glyphicon glyphicon-home"></i>
+			首页
+		</a>
+		<a href="#/list" ng-class="{active:page.current=='list'}">
+			<i class="glyphicon glyphicon-th-list"></i>
+			列表页
+		</a>
+		<a href="#/goods" ng-class="{active:page.current=='goods'}">
+			<i class="glyphicon glyphicon-eye-open"></i>
+			详情
+		</a>
+	</footer>
+	
+</body>
+</html>

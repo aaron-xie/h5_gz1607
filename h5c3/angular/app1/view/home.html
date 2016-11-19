@@ -1,0 +1,15 @@
+<div class="homePage">
+	<div class="content">
+		<div class="input-group">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+			<input type="text" ng-model="query" class="form-control">
+		</div>
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="item in datalist | filter:query" ng-class="{odd:$odd}">
+				<img ng-src="{{item.imgurl}}" class="img-thumbnail" style="width:10rem;">
+				<p>{{item.pag}}</p>
+				<p>价格：{{item.price | currency:'￥'}}</p>
+			</li>
+		</ul>
+	</div>
+</div>

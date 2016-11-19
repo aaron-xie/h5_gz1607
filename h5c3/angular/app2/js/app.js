@@ -1,39 +1,37 @@
-(function(){
+;(function(){
+	/*
+		1.创建主模块，并依赖其他模块
+		2.配置路由
+		3.全局变量的配置，run()
+	 */
+	
 	var app = angular.module('myMall',['ngRoute','myMall.ctrl']);
 
-	// 路由配置
-	// 利用$routeProvider来实现
 	app.config([
 		'$routeProvider',
 		function($routeProvider){
-			// 首页路由
+			// 主页
 			$routeProvider.when('/home',{
-				// template:'<strong>首页</strong>'
 				templateUrl:'view/home.html',
 				controller:'homeController'
 			})
 
+			// 列表页
 			.when('/list',{
 				templateUrl:'view/list.html',
 				controller:'listController'
 			})
 
-			// 在path中使用变量
-			// :id
-			.when('/goods/:id',{
+			// 列表页
+			.when('/goods/:goodsid',{
 				templateUrl:'view/goods.html',
 				controller:'goodsController'
 			})
 
-			// 当以上所有路由都不匹配时使用
-			.otherwise({redirectTo:'/home'})
-		}
-	]);
 
-	app.run([
-		'$rootScope',
-		function($rootScope){
-			$rootScope.page = {};
+			.otherwise({
+				redirectTo:'/home'
+			});
 		}
 	])
 })();

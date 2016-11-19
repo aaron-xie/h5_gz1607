@@ -6,9 +6,9 @@
 		</div>
 		<ul class="list-group">
 			<li class="list-group-item" ng-repeat="item in datalist | filter:query" ng-class="{odd:$odd}">
-				<img ng-src="{{item.imgurl}}" class="img-thumbnail" style="width:10rem;">
-				<p>{{item.pag}}</p>
-				<p>价格：{{item.price | currency:'￥'}}</p>
+				<a ng-href="#/goods/{{item.id}}"><img ng-src="{{item.imgurl}}" class="img-thumbnail" style="width:10rem;"></a>
+				<p>{{item.title}}</p>
+				<p>价格：<del>{{item.cost | currency:'￥'}}</del>{{item.price | currency:'￥'}}</p>
 			</li>
 		</ul>
 	</div>

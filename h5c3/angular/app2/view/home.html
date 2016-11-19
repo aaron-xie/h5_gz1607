@@ -1,0 +1,11 @@
+<div class="clearfix">
+	<div class="col-sm-6 col-md-4" ng-repeat="item in datalist | filter:query" ng-class="{odd:$odd}">
+		<div class="thumbnail">
+			<a ng-href="#/goods/{{item.id}}"><img ng-src="{{item.imgurl}}"></a>
+			<div class="caption">
+				<h4>{{item.title}}</h4>
+				<p>价格：<del>{{item.cost | currency:'￥'}}</del>{{item.price | currency:'￥'}}</p>
+			</div>
+		</div>
+	</div>
+</div>

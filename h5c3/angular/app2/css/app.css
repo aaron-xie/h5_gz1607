@@ -1,0 +1,7 @@
+html{font-size:62.5%;}
+.mainNav{display:flex;height:5rem;line-height:5rem;text-align:center;font-size:1.8rem;}
+.mainNav a{flex:1;}
+.mainNav a:hover{background-color: #efefef;text-decoration: none;}
+.mainNav a.active{background-color: #5cb85c;color:#fff;}
+
+.list-group-item.odd{background-color: #efefef;}

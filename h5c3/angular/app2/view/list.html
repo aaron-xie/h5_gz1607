@@ -1,0 +1,18 @@
+<div>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+		<input type="text" ng-model="query" class="form-control">
+	</div>
+	<ul class="list-group" style="margin-top:20px;">
+		<li class="list-group-item" ng-repeat="item in datalist | filter:query" ng-class="{odd:$odd}">
+			<div class="media">
+				<a ng-href="#/goods/{{item.id}}" class="media-left"><img ng-src="{{item.imgurl}}" style="width:10rem;"></a>
+				<div class="media-body">
+				    <h4 class="media-heading">{{item.title}}</h4>
+					<p>原价：<del>{{item.cost | currency:'￥'}}</del></p>
+					<p>活动价：{{item.price | currency:'￥'}}</p>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

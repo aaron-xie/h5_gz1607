@@ -1,5 +1,7 @@
 <div class="goodsPage">
 	<div class="content">
-		<img src="../img/yy_6.jpg">
+		<img ng-src="{{goods.imgurl}}">
+		<p>{{goods.title}}</p>
+		<p>价格：<del>{{goods.cost | currency:'￥'}}</del>{{goods.price | currency:'￥'}}</p>
 	</div>
 </div>

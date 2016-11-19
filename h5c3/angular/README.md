@@ -325,6 +325,7 @@ app.service('mySev',function(){});
 * config阶段
 `注意的是在config阶段，只有provider和constant能被注入（例外:$provide和$injector)`
 * run阶段
+`注射器加载完所有模块时，run方法执行一次 `
 
 >由于constant和value总是返回一个静态值，它们不会通过注入器被调用，因此你不能在其中注入任何东西。
 
@@ -339,9 +340,128 @@ app.service('mySev',function(){});
 
 
 
-##自定义指令
+##自定义指令（Directive）
+
+###angular指令类型
+1. 元素指令（Element）
+2. 属性指令（Attribute）
+3. 类指令（Class）
+4. 注释指令（Comment）
+
+>推荐使用元素和属性的方式创建指令
+1. 当需要创建带有自己模板的指令时，使用元素名称的方式（E）创建指令。
+2. 当需要为已有的html标签增加功能时，使用属性的方式（A）创建指令
+
+###指令创建方法
+在模块下执行directive方法自定义一个指令，方法可返回一个对象或一个函数
+```
+var app = angular.module('myApp',[]);
+app.directive('arHello', function() {
+    return {
+        restrict: 'E',
+        template: '<h1>Hello world</h1>',
+        replace: true
+    };
+});
+```
+
+**参数**
+
+* 参数1：指令名称
+     指令名称使用驼峰命名法（如:ngHover），但使用时需要写成`<ng-hover></ng-hover>`
+* 参数2：执行函数
+     函数可以注入各种服务，函数返回一个指令对象
+
+
+**指令对象属性：**
+
+* template(String/Function)：模板属性
+* templateUrl(String/Function):模板文件路径
+* replace(Boolean)：是否用模板替换指令标签
+* restrict(String)：指令类型，
+    - E: Element
+    - A: Attribute(默认)
+    - C: Class
+    - M: Comment
+* link
+```
+link:function(scope,element,attrs,rootScope){
+    //注意：link只会在指令编译完成后执行一次
+    /*
+        scope:控制器作用域
+        element:指令元素
+        attrs:指令中的属性集合
+        rootScope:父级控制器，必须写上require属性后才起作用,否则为undefined
+     */
+}
+```
+    - 指令与控制器之间的交互
+* controller (String/Function)定义指令控制器
+    - String：指定已经存在的控制器名称
+    - Function
+    ```
+    directive('myDirective', function() {
+        restrict: 'A',
+        controller:function($scope, $element, $attrs, $transclude) {
+            //...
+        }
+    });
+    ```
+* scope(Boolean/Object)：描述指令作用域与父级作用域的关系
+    - false: 使用父作用域作为自己的作用域（默认）
+    - true: 从父作用域继承并创建一个自己的作用域。
+    - object: 隔离作用域，与父作用域隔离，并指定可以从父作用域访问的变量
+    
+* transclude (Boolean)：嵌入，把指令中的内容（innerHTML）嵌入模板中带ng-transclude指令的标签内
+* priority (Number)：指令优先级，值越大优先级越高，默认为0。
+    - 在同一元素上声明了多个指令时，根据优先级决定哪个先被调用。 
+    - 如果priority相同，则按声明顺序调用。
+    `PS: ng-repeat是所有内置指令中优先级最高的。`
+* terminal (Boolean)：是否停止当前元素上比该指令优先级低的指令。 
+`PS: 但是相同的优先级还是会执行。`
+
+
+
 
 ##路由
+>AngularJS可以实现多视图的单页Web应用（SPA）,通过 # + 标记 帮助我们区分不同的逻辑页面并将不同的页面绑定到对应的控制器上
+
+[理解url中的#]
+
+###ngRoute模块
+angular路由依赖ngRoute模块,所以实现路由的前提是依赖ngRoute（此模块已分离成单独的文件angular-route.js），利用ngRoute实现路由的步骤如下：
+1. 引入angular-route.js。
+2. 依赖ngRoute模块
+```
+var app = angular.module('myApp',['ngRoute']);
+```
+3. 使用 ngView 指令
+```
+<div ng-view></div>
+```
+4. 利用$routeProvider配置路由规则
+```
+app.config(['$routeProvider', function($routeProvider){
+    $routeProvider
+        .when('/',{template:'首页'})
+        .when('/list',{template:'列表页'})
+        .when('/goods',{template:'商品详情页'})
+
+        //不符合路由规则是自动跳转到首页
+        .otherwise({redirectTo:'/'});
+}]);
+```
+
+通过$routeProvider的when(path,object) & otherwise(object)函数按顺序定义所有路由，函数包含两个参数:
+    - 第一个参数是 URL 或者 URL 正则规则。
+    - 第二个参数是路由配置对象，属性如下。
+``` 
+    template(string): 模板字符串,如果我们只需要在 ng-view 中插入简单的 HTML 内容，则使用该参数
+    templateUrl(string): 模板路径,
+    controller(string/function/array):为当前模板指定控制器 ,
+    controllerAs(string):为controller指定别名,
+    redirectTo(string/function):重定向的地址,
+```
 
 ###单页面应用
 

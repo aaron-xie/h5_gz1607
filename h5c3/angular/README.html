@@ -1051,8 +1051,13 @@ body .markdown-body
 <li><a href="#_19">依赖注入的应用</a></li>
 </ul>
 </li>
-<li><a href="#_20">自定义指令</a></li>
+<li><a href="#directive_1">自定义指令（Directive）</a><ul>
+<li><a href="#angular">angular指令类型</a></li>
+<li><a href="#_20">指令创建方法</a></li>
+</ul>
+</li>
 <li><a href="#_21">路由</a><ul>
+<li><a href="#ngroute">ngRoute模块</a></li>
 <li><a href="#_22">单页面应用</a></li>
 </ul>
 </li>
@@ -1448,7 +1453,8 @@ app.service('mySev',function(){});
 <li>provider中的$get方法（也就是factory函数）</li>
 <li>config阶段<br />
 <code>注意的是在config阶段，只有provider和constant能被注入（例外:$provide和$injector)</code></li>
-<li>run阶段</li>
+<li>run阶段<br />
+<code>注射器加载完所有模块时，run方法执行一次</code></li>
 </ul>
 <blockquote>
 <p>由于constant和value总是返回一个静态值，它们不会通过注入器被调用，因此你不能在其中注入任何东西。</p>
@@ -1466,8 +1472,129 @@ app.service('mySev',function(){});
 <p>angular全局变量</p>
 </li>
 </ul>
-<h2 id="_20"><a name="user-content-_20" href="#_20" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>自定义指令</h2>
+<h2 id="directive_1"><a name="user-content-directive_1" href="#directive_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>自定义指令（Directive）</h2>
+<h3 id="angular"><a name="user-content-angular" href="#angular" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>angular指令类型</h3>
+<ol>
+<li>元素指令（Element）</li>
+<li>属性指令（Attribute）</li>
+<li>类指令（Class）</li>
+<li>注释指令（Comment）</li>
+</ol>
+<blockquote>
+<p>推荐使用元素和属性的方式创建指令<br />
+1. 当需要创建带有自己模板的指令时，使用元素名称的方式（E）创建指令。<br />
+2. 当需要为已有的html标签增加功能时，使用属性的方式（A）创建指令</p>
+</blockquote>
+<h3 id="_20"><a name="user-content-_20" href="#_20" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>指令创建方法</h3>
+<p>在模块下执行directive方法自定义一个指令，方法可返回一个对象或一个函数<br />
+<pre><code>var app = angular.module('myApp',[]);
+app.directive('arHello', function() {
+    return {
+        restrict: 'E',
+        template: '&lt;h1&gt;Hello world&lt;/h1&gt;',
+        replace: true
+    };
+});
+</code></pre></p>
+<p><strong>参数</strong></p>
+<ul>
+<li>参数1：指令名称<br />
+     指令名称使用驼峰命名法（如:ngHover），但使用时需要写成<code>&lt;ng-hover&gt;&lt;/ng-hover&gt;</code></li>
+<li>参数2：执行函数<br />
+     函数可以注入各种服务，函数返回一个指令对象</li>
+</ul>
+<p><strong>指令对象属性：</strong></p>
+<ul>
+<li>template(String/Function)：模板属性</li>
+<li>templateUrl(String/Function):模板文件路径</li>
+<li>replace(Boolean)：是否用模板替换指令标签</li>
+<li>restrict(String)：指令类型，<ul>
+<li>E: Element</li>
+<li>A: Attribute(默认)</li>
+<li>C: Class</li>
+<li>M: Comment</li>
+</ul>
+</li>
+<li>link<br />
+<pre><code>link:function(scope,element,attrs,rootScope){
+    //注意：link只会在指令编译完成后执行一次
+    /*
+        scope:控制器作用域
+        element:指令元素
+        attrs:指令中的属性集合
+        rootScope:父级控制器，必须写上require属性后才起作用,否则为undefined
+     */
+}
+</code></pre><ul>
+<li>指令与控制器之间的交互</li>
+</ul>
+</li>
+<li>controller (String/Function)定义指令控制器<ul>
+<li>String：指定已经存在的控制器名称</li>
+<li>Function<br />
+<pre><code>directive('myDirective', function() {
+    restrict: 'A',
+    controller:function($scope, $element, $attrs, $transclude) {
+        //...
+    }
+});
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p>scope(Boolean/Object)：描述指令作用域与父级作用域的关系</p>
+<ul>
+<li>false: 使用父作用域作为自己的作用域（默认）</li>
+<li>true: 从父作用域继承并创建一个自己的作用域。</li>
+<li>object: 隔离作用域，与父作用域隔离，并指定可以从父作用域访问的变量</li>
+</ul>
+</li>
+<li>
+<p>transclude (Boolean)：嵌入，把指令中的内容（innerHTML）嵌入模板中带ng-transclude指令的标签内</p>
+</li>
+<li>priority (Number)：指令优先级，值越大优先级越高，默认为0。<ul>
+<li>在同一元素上声明了多个指令时，根据优先级决定哪个先被调用。 </li>
+<li>如果priority相同，则按声明顺序调用。<br />
+<code>PS: ng-repeat是所有内置指令中优先级最高的。</code></li>
+</ul>
+</li>
+<li>terminal (Boolean)：是否停止当前元素上比该指令优先级低的指令。 <br />
+<code>PS: 但是相同的优先级还是会执行。</code></li>
+</ul>
 <h2 id="_21"><a name="user-content-_21" href="#_21" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>路由</h2>
+<blockquote>
+<p>AngularJS可以实现多视图的单页Web应用（SPA）,通过 # + 标记 帮助我们区分不同的逻辑页面并将不同的页面绑定到对应的控制器上</p>
+</blockquote>
+<p>[理解url中的#]</p>
+<h3 id="ngroute"><a name="user-content-ngroute" href="#ngroute" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>ngRoute模块</h3>
+<p>angular路由依赖ngRoute模块,所以实现路由的前提是依赖ngRoute（此模块已分离成单独的文件angular-route.js），利用ngRoute实现路由的步骤如下：<br />
+1. 引入angular-route.js。<br />
+2. 依赖ngRoute模块<br />
+<pre><code>var app = angular.module('myApp',['ngRoute']);
+</code></pre><br />
+3. 使用 ngView 指令<br />
+<pre><code>&lt;div ng-view&gt;&lt;/div&gt;
+</code></pre><br />
+4. 利用$routeProvider配置路由规则<br />
+<pre><code>app.config(['$routeProvider', function($routeProvider){
+    $routeProvider
+        .when('/',{template:'首页'})
+        .when('/list',{template:'列表页'})
+        .when('/goods',{template:'商品详情页'})
+
+        //不符合路由规则是自动跳转到首页
+        .otherwise({redirectTo:'/'});
+}]);
+</code></pre></p>
+<p>通过$routeProvider的when(path,object) &amp; otherwise(object)函数按顺序定义所有路由，函数包含两个参数:<br />
+    - 第一个参数是 URL 或者 URL 正则规则。<br />
+    - 第二个参数是路由配置对象，属性如下。<br />
+<pre><code>    template(string): 模板字符串,如果我们只需要在 ng-view 中插入简单的 HTML 内容，则使用该参数
+    templateUrl(string): 模板路径,
+    controller(string/function/array):为当前模板指定控制器 ,
+    controllerAs(string):为controller指定别名,
+    redirectTo(string/function):重定向的地址,
+</code></pre></p>
 <h3 id="_22"><a name="user-content-_22" href="#_22" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>单页面应用</h3>
 <hr />
 <p><em>MVC</em></p>

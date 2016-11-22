@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Ionic项目</title>
+	<link rel="stylesheet" href="lib/ionic/css/ionic.css">
+	<script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script>
+		(function(){
+			var app = angular.module('myApp',['ionic']);
+
+			app.controller('ContentController',[
+				'$scope',
+				'$ionicSideMenuDelegate',
+				function($scope,$ionicSideMenuDelegate){
+					$scope.toggleLeftMenu = function(){
+						$ionicSideMenuDelegate.toggleLeft();
+					}
+				}
+			]);
+
+
+			app.controller('leftMenuController',[
+				'$scope',
+				'$ionicSideMenuDelegate',
+				function($scope,$ionicSideMenuDelegate){
+					
+				}
+			])
+		})();
+
+
+
+		// 以下是模拟信息
+		/*app.directive('ionHeaderBar',function(){
+			return{
+				template:'<div class="bar bar-header bar-light" ng-transclude></div>'
+			}
+		})*/
+	</script>
+</head>
+<body>
+	<!-- <div class="bar bar-header bar-light">
+	  <h1 class="title">bar-light</h1>
+	</div> -->
+	<!-- success,primary,warning,danger,info,default -->
+
+	<ion-side-menus>
+	  <!-- 中间内容 -->
+	  <ion-side-menu-content ng-controller="ContentController">
+	  	<ion-header-bar align-title="center" class="bar-positive">
+	  		<div class="buttons">
+	  		    <button class="button" ng-click="toggleLeftMenu()"><span class="ion-navicon-round"></span></button>
+	  		 </div>
+	  		<h1 class="title">Title!</h1>
+	  	</ion-header-bar>
+	  	<ion-content>
+	  	  一些内容!
+	  	</ion-content>
+	  	<ion-tabs class="tabs-positive tabs-icon-top">
+	  		<ion-tab title="首页" icon-on="ion-ios-home" icon-off="ion-ios-home-outline">
+	  			首页
+	  		</ion-tab>
+	  		<ion-tab title="列表" icon-on="ion-navicon-round" icon-off="ion-navicon-round">
+	  			列表
+	  		</ion-tab>
+	  		<ion-tab title="商品详情" icon-on="ion-android-cart" icon-off="ion-android-cart">
+	  			购物车
+	  		</ion-tab>
+	  	</ion-tabs>
+	  </ion-side-menu-content>
+
+	  <!-- 左侧菜单 -->
+	  <ion-side-menu side="left" ng-controller="leftMenuController">
+	  	<ul class="list">
+	  		<li class="item">热门音乐</li>
+	  		<li class="item">经典老歌</li>
+	  		<li class="item">欧美金曲</li>
+	  		<li class="item">情歌对唱</li>
+	  	</ul>
+	  </ion-side-menu>
+	</ion-side-menus>
+</body>
+</html>

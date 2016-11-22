@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>24指令link方法中的rootScope</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		(function(){
+			angular.module('myApp',[])
+
+			.controller('mainController',[
+				'$scope',
+				'$rootScope',
+				function($scope,$rootScope){
+					$rootScope.title = 'h5 1607';
+					$scope.nickname = 'xxx';
+				}
+			])
+
+			.directive('player',function($rootScope){
+				return {
+					// scope:{
+					// 	attr:'@'
+					// },
+					template:'<div><audio></audio><div ng-transclude></div></div>',
+					link:function(scope,element,attrs,rootScope){
+						console.log(scope,attrs)
+						
+					},
+					transclude:true
+				}
+			})
+
+			.directive('arTest1',function(){
+				return {
+					link:function(scope,element,attrs){
+						console.log('test1')
+						element.append('<h4>test1</h4>');
+					},
+					priority:5
+				}
+			})
+
+			.directive('arTest2',function(){
+				return {
+					link:function(scope,element,attrs){
+						console.log('test2')
+						element.append('<h4>test2</h4>');
+					},
+					priority:2,
+					terminal:true
+				}
+			})
+
+			.directive('arTest3',function(){
+				return {
+					link:function(scope,element,attrs){
+						console.log('test3')
+						element.append('<h4>test3</h4>');
+					},
+					priority:1
+				}
+			})
+		})();
+	</script>
+</head>
+<body ng-controller="mainController">
+	<input type="text" ng-model="name">
+	<player src="media/wusuowei.mp3" title="杨坤-无所谓">
+		<p>歌词：</p>
+		<p>歌手：</p>
+	</player>
+
+	<div ar-test1 ar-test2 ar-test3></div>
+</body>
+</html>

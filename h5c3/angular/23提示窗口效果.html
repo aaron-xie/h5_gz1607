@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>23提示窗口效果</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<style>
+		html{font-size:62.5%;}
+		.project-list{padding:20px;}
+		.project-list .btn-group{margin:10px;}
+		.project-left{position:absolute;top:0;left:0;width:12rem;height:30rem;overflow-y:auto;}
+		.project-left .odd{background-color:#efefef;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		(function(){
+			angular.module('myApp',[])
+
+			.controller('mainController',[
+				'$scope',
+				'$rootScope',
+				function($scope,$rootScope){
+					$scope.projectList = ['当当网','中酒网','为为网','蜜芽网','义乌购','优购网','银泰网','也买酒','名鞋库'];
+					$scope.projectLeft = ['新蛋商城','普通母婴','步淘网','珍品','百联E城','米米乐商城','网易考拉海购','聚惠买商城','菲宝乐购','走秀','邦购','闪猫','阳光海淘','阿窝团','雨宜家商城','顺丰优选','风尚购物','飞虎乐购','麦乐购','麦考林'];
+
+					this.showLeft = false;
+
+				}
+			])
+
+			.directive('autoPosition',function($rootScope){
+				return {
+					require:'?^ngController',//指定require后，实现ngController与本指令的通讯
+					link:function(scope,element,attrs,someCtrl){
+						/*
+							需求：
+								点击按钮，显示/隐藏弹窗
+						 */
+						var pop = angular.element(document.querySelector('.project-left'));
+						element.on('click',function(){
+							var currentPos = element[0].getBoundingClientRect();
+
+							pop.css({top:currentPos.bottom + 'px',left:currentPos.left-144+currentPos.width + 'px'});
+
+							if(scope.$index === someCtrl.currentIdx){
+								someCtrl.showLeft = !someCtrl.showLeft;
+							}else{
+								someCtrl.showLeft = true;
+							}
+
+							// 每次点击更新currentIdx，以便下次判断
+							someCtrl.currentIdx = scope.$index;
+
+							// 手动通知angular有值更新
+							scope.$apply();
+						})
+					}
+				}
+			})
+		})();
+	</script>
+</head>
+<!-- 
+	用controll as alias设置别名
+	如：mainController as mc
+	会自动给当前$scope设置一个mc属性，而mc就是控制中的this
+ -->
+<body ng-controller="mainController as mc">
+	<div class="project-list">
+		<div class="btn-group" ng-repeat="item in projectList">
+			<button class="btn btn-default">{{item}}</button>
+			<button type="button" class="btn btn-default" auto-position>
+				<span class="caret"></span>
+			</button>
+		</div>
+	</div>
+	<div class="project-left" ng-show="mc.showLeft">
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="item in projectLeft" ng-class-odd="'odd'">{{item}}</li>
+		</ul>
+	</div>
+</body>
+</html>

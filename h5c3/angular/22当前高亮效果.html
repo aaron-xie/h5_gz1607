@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>22当前高亮效果</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<style>
+		html{font-size:62.5%;}
+		.mainNav{display: flex;height:5rem;line-height:5rem;text-align: center;}
+		.mainNav a{flex:1;}
+		.mainNav a.active{background-color: #fc0;color:#fff;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular-route/angular-route.js"></script>
+	<script>
+		(function(){
+			var app = angular.module('myApp',['ngRoute']);
+
+			// 配置路由
+			app.config([
+				'$routeProvider',
+				function($routeProvider){
+					$routeProvider.when('/home',{
+						template:'首页'
+					})
+
+					.when('/list',{
+						template:'列表'
+					})
+
+					.when('/goods',{
+						template:'详情'
+					})
+
+					.otherwise({
+						redirectTo:'/home'
+					});
+
+				}
+			])
+
+			app.controller('myCtrl', [
+				'$scope', 
+				function($scope){
+					
+				}
+			]);
+
+
+			// 高亮指令
+			app.directive('autoHighlight',function(){
+				return {
+					// restrict:'A'
+					link:function(scope,element,attrs){
+						console.log(scope,element,attrs);
+
+						// 所有关于DOM节点的操作，都放在指令中实现
+
+						// 为当前元素绑定点击事件
+						element.on('click',function(){
+							// 先清除所有
+							element.parent().children().removeClass('active');
+
+							// 给当前元素添加高亮
+							element.addClass('active');
+						});
+					}
+				}
+			})
+		})();
+	</script>
+</head>
+<body>
+	<div ng-view></div>
+	<nav class="navbar navbar-default navbar-fixed-bottom mainNav">
+		<a href="#/home" auto-highlight class="active">首页</a>
+		<a href="#/list" auto-highlight>列表</a>
+		<a href="#/goods" auto-highlight>详情</a>
+	</nav>
+</body>
+</html>

@@ -384,18 +384,21 @@ app.directive('arHello', function() {
     - C: Class
     - M: Comment
 * link
-```
-link:function(scope,element,attrs,rootScope){
-    //注意：link只会在指令编译完成后执行一次
-    /*
-        scope:控制器作用域
-        element:指令元素
-        attrs:指令中的属性集合
-        rootScope:父级控制器，必须写上require属性后才起作用,否则为undefined
-     */
-}
-```
+>link函数主要用于操作dom元素,给dom元素绑定事件和监听。link函数的执行时机为angular编译此模板之后
+
+    ```
+    link:function(scope,element,attrs,rootScope){
+        //注意：link只会在指令编译完成后执行一次
+        /*
+            scope:当前directive的作用域，是否独立由scope参数决定
+            element:指令元素，当replace为true时，element表示模板中最外层元素（模板中只能有一个根元素）
+            attrs:指令中的属性集合
+            rootScope:父级控制器，必须写上require属性后才起作用,否则为undefined
+         */
+    }
+    ```
     - 指令与控制器之间的交互
+    
 * controller (String/Function)定义指令控制器
     - String：指定已经存在的控制器名称
     - Function
@@ -407,6 +410,23 @@ link:function(scope,element,attrs,rootScope){
         }
     });
     ```
+
+* require
+设置require后，把得到的**控制器（不是scope）**赋值给link方法的第四个参数，默认查找本指令所在元素中的其他控制器，如果找不到，则抛出错误
+```
+directive('myDirective', function() {
+    require: '^ngController',
+    controller:function(scope, element, attrs, someCtrl) {
+        //...
+    }
+});
+```
+    - ^ 向父元素查找控制器
+    - ? 如果找不到控制器，不抛出错误
+
+>控制器可以暴露一个API，而link可以通过require与其他的指令控制器交互
+所以如果要开放出一个API给其他指令用就写在controller中，否则写在link中
+
 * scope(Boolean/Object)：描述指令作用域与父级作用域的关系
     - false: 使用父作用域作为自己的作用域（默认）
     - true: 从父作用域继承并创建一个自己的作用域。

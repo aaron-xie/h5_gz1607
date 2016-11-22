@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>25angularElement获取元素</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		(function(){
+			document.addEventListener('DOMContentLoaded',function(){
+
+				var box = document.getElementById('box');
+				console.log(box)
+
+				// angular.element(dom/htmlString);
+				console.log(angular.element(box));
+				console.log(angular.element('<strong>h5 1607</strong>'));
+			})
+		})();
+
+
+
+	</script>
+</head>
+<body>
+	<div id="box"></div>
+</body>
+</html>

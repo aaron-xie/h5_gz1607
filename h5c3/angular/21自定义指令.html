@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>21自定义指令</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		(function(){
+			var app = angular.module('myApp',[]);
+			console.log(app);
+
+			app.controller('myController',[
+				'$scope',
+				function($scope){
+					$scope.title = '播放器页面'
+				}
+			]);
+
+			// 自定义指令
+			app.directive('arHello',[
+				'$http',
+				function($http){
+					// 函数可以注入各种服务，函数内必须返回一个指令对象
+					// 指令对象包含各种属性
+					return {
+						template:'<h4>hello,老谢</h4>',
+						replace:true,
+						restrict:'AE'
+					}
+				}
+			]);
+
+
+			// 音乐播放器指令
+			app.directive('arPlayer',function(){
+				return {
+					template:'<audio></audio>',
+					restrict:'E',
+					replace:true,
+					link:function(scope,element,attrs,rootScope){
+						// scope: 控制器作用域
+						// element: 指令元素(jqLite元素)
+						// jQuery('#content') ==> angular.element('#content');
+						// attrs:指令中的属性集合
+
+						element.addClass('abc').prop('controls',true);
+
+						element.on('mouseover',function(){
+							element[0].play();
+						})
+						console.log(arguments)
+					}
+				}
+			});
+
+			// 
+			app.directive('arBox',function(){
+				return {
+					restrict:'EA',
+					template:'<strong>替换元素</strong>',
+					templateUrl:'',
+					replace:true,
+					link:function(scope,element,attrs){
+						console.log(element);
+					}
+				}
+			})
+		})();
+	</script>
+</head>
+<body ng-controller="myController">
+	<div ar-hello></div>
+	<ar-hello></ar-hello>
+	<ar-player src="media/wusuowei.mp3" title="我的播放器"></ar-player>
+
+	<div ar-box></div>
+</body>
+</html>

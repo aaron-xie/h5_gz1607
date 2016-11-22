@@ -1519,8 +1519,8 @@ app.directive('arHello', function() {
 <pre><code>link:function(scope,element,attrs,rootScope){
     //注意：link只会在指令编译完成后执行一次
     /*
-        scope:控制器作用域
-        element:指令元素
+        scope:离指令最近的作用域
+        element:指令元素，当replace为true时，element表示模板中最外层元素（模板中只能有一个根元素）
         attrs:指令中的属性集合
         rootScope:父级控制器，必须写上require属性后才起作用,否则为undefined
      */

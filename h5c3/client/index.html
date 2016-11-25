@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax请求原理</title>
+	<script>
+
+	// 前端代码
+		var xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState === 4){
+				var res = JSON.parse(xhr.responseText)
+				if(res.error){
+					alert(res.error);
+					return;
+				}
+
+				res.data.forEach(function(item){
+					var p = document.createElement('p');
+					p.innerHTML = item
+					document.body.appendChild(p);
+				});
+			}
+		}
+
+		
+
+
+		document.addEventListener('DOMContentLoaded',function(){
+			var btnCity = document.querySelector('#city');
+			var btnMy = document.querySelector('#mayun');
+
+			btnMy.onclick = function(){
+				xhr.open('get','http://localhost:3000/getmayun',true);
+				xhr.send();
+			}
+
+
+			btnCity.onclick = function(){
+				xhr.open('get','http://localhost:3000/getcity?page=1&size=10',true);
+				xhr.send();
+			}
+		})
+
+
+	</script>
+</head>
+<body>
+	<button id="city">获取城市</button>
+	<button id="mayun">获取马云</button>
+</body>
+</html>

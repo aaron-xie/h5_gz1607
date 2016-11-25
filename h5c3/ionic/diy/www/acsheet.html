@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>acsheet</title>
+	<link rel="stylesheet" href="lib/ionic/css/ionic.css">
+	<script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script>
+		(function(){
+			angular.module('main',['ionic'])
+
+			.controller('mainController', [
+				'$scope', 
+				'$ionicActionSheet', 
+				function($scope,$ionicActionSheet){
+					$scope.showPop = function(){
+						$ionicActionSheet.show({
+							buttons: [
+								{ text: '拍照' },
+								{ text: '相册' },
+							],
+							destructiveText: '删除',
+							// titleText: 'Modify your album',
+							cancelText: '取消',
+							buttonClicked: function(index) {
+								console.log(index);
+								switch(index){
+									
+								}
+								return true;
+							}
+					   });
+					}
+				}
+			])
+		})();
+	</script>
+</head>
+<body ng-app="main" ng-controller="mainController">
+	<button class="button button-positive" ng-click="showPop()">button-positive</button>
+</body>
+</html>

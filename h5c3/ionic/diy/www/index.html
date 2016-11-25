@@ -1,85 +1,149 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>Ionic项目</title>
-	<link rel="stylesheet" href="lib/ionic/css/ionic.css">
-	<script src="lib/ionic/js/ionic.bundle.js"></script>
-	<script>
-		(function(){
-			var app = angular.module('myApp',['ionic']);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ionic项目</title>
+    <link rel="stylesheet" href="lib/ionic/css/ionic.css">
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script>
+    (function() {
+        var app = angular.module('myApp', ['ionic']);
 
-			app.controller('ContentController',[
-				'$scope',
-				'$ionicSideMenuDelegate',
-				function($scope,$ionicSideMenuDelegate){
-					$scope.toggleLeftMenu = function(){
-						$ionicSideMenuDelegate.toggleLeft();
-					}
-				}
-			]);
+        app.config(function($ionicConfigProvider) {
+            $ionicConfigProvider.platform.android.tabs.style('standard');
+            $ionicConfigProvider.platform.android.tabs.position('standard');
+        });
 
 
-			app.controller('leftMenuController',[
-				'$scope',
-				'$ionicSideMenuDelegate',
-				function($scope,$ionicSideMenuDelegate){
-					
-				}
-			])
-		})();
+        // 全局变量设置
+        app.run([
+            '$rootScope',
+            '$window',
+            function($rootScope, $window) {
+                $rootScope.leftmenuWidth = $window.innerWidth - 40
+            }
+        ])
+
+        app.controller('ContentController', [
+            '$scope',
+            '$ionicSideMenuDelegate',
+            '$timeout',
+            '$ionicLoading',
+            function($scope, $ionicSideMenuDelegate,$timeout,$ionicLoading) {
+                $scope.toggleLeftMenu = function() {
+                    $ionicSideMenuDelegate.toggleLeft();
+                }
+
+                // 歌曲列表
+                $scope.songList = ['忘情水', '无所谓', '香水有毒', '爱情买卖', '一万个理由', '告白气球', '我们屯里的人', '五环之歌'];
+
+
+                // 下拉刷新
+                $scope.doRefresh = function(){
+                	$timeout(function(){
+                		$scope.songList = ['小苹果', '万水千山总是情','九妹','女人是老虎'];
+
+                		// 通知刷新完成
+                		$scope.$broadcast('scroll.refreshComplete');
+                	},2000);
+                }
+
+                // 上拉加载更多
+                $scope.loadMore = function(){
+                	$scope.songList.push('两只蝴蝶','两只老虎','两只小乌龟','两只小蜜蜂');
+                	$ionicLoading.show({
+                		template:'拼命加载中...',
+                		noBackdrop:true
+                	})
+                	$timeout(function(){
+                		$ionicLoading.hide();
+                		$scope.$broadcast('scroll.infiniteScrollComplete');
+                	},3000)
+                }
+            }
+        ]);
+
+
+        app.controller('leftMenuController', [
+            '$scope',
+            '$ionicSideMenuDelegate',
+            function($scope, $ionicSideMenuDelegate) {
+
+            }
+        ]);
+
+
+    })();
 
 
 
-		// 以下是模拟信息
-		/*app.directive('ionHeaderBar',function(){
-			return{
-				template:'<div class="bar bar-header bar-light" ng-transclude></div>'
+    // 以下是模拟信息
+    /*app.directive('ionSideMenus',function(){
+    	return{
+    		restrict:'E',
+    		template:'<div class="bar bar-header bar-light">\
+					  <h1 class="title">bar-light</h1>\
+					</div>',
+			link:function(scope,element,attrs){
+
 			}
-		})*/
-	</script>
+    	}
+    })*/
+
+    </script>
 </head>
+
 <body>
-	<!-- <div class="bar bar-header bar-light">
+    <!-- <div class="bar bar-header bar-light">
 	  <h1 class="title">bar-light</h1>
 	</div> -->
-	<!-- success,primary,warning,danger,info,default -->
-
-	<ion-side-menus>
-	  <!-- 中间内容 -->
-	  <ion-side-menu-content ng-controller="ContentController">
-	  	<ion-header-bar align-title="center" class="bar-positive">
-	  		<div class="buttons">
-	  		    <button class="button" ng-click="toggleLeftMenu()"><span class="ion-navicon-round"></span></button>
-	  		 </div>
-	  		<h1 class="title">Title!</h1>
-	  	</ion-header-bar>
-	  	<ion-content>
-	  	  一些内容!
-	  	</ion-content>
-	  	<ion-tabs class="tabs-positive tabs-icon-top">
-	  		<ion-tab title="首页" icon-on="ion-ios-home" icon-off="ion-ios-home-outline">
-	  			首页
-	  		</ion-tab>
-	  		<ion-tab title="列表" icon-on="ion-navicon-round" icon-off="ion-navicon-round">
-	  			列表
-	  		</ion-tab>
-	  		<ion-tab title="商品详情" icon-on="ion-android-cart" icon-off="ion-android-cart">
-	  			购物车
-	  		</ion-tab>
-	  	</ion-tabs>
-	  </ion-side-menu-content>
-
-	  <!-- 左侧菜单 -->
-	  <ion-side-menu side="left" ng-controller="leftMenuController">
-	  	<ul class="list">
-	  		<li class="item">热门音乐</li>
-	  		<li class="item">经典老歌</li>
-	  		<li class="item">欧美金曲</li>
-	  		<li class="item">情歌对唱</li>
-	  	</ul>
-	  </ion-side-menu>
-	</ion-side-menus>
+    <!-- success,primary,warning,danger,info,default -->
+    <ion-side-menus>
+        <!-- 中间内容 -->
+        <ion-side-menu-content ng-controller="ContentController">
+            <ion-header-bar align-title="center" class="bar-positive">
+                <div class="buttons">
+                    <button class="button" menu-toggle="left"><span class="ion-navicon-round"></span></button>
+                </div>
+                <h1 class="title">Title!</h1>
+            </ion-header-bar>
+            <ion-content>
+                <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+                </ion-refresher>
+                <ion-list>
+                    <ion-item ng-repeat="song in songList track by $index">{{song}}</ion-item>
+                </ion-list>
+				<ion-infinite-scroll on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
+            </ion-content>
+            <ion-tabs class="tabs-positive tabs-icon-top">
+                <ion-tab title="首页" icon-on="ion-ios-home" icon-off="ion-ios-home-outline">
+                    首页
+                </ion-tab>
+                <ion-tab title="列表" icon-on="ion-navicon-round" icon-off="ion-navicon-round">
+                    列表
+                </ion-tab>
+                <ion-tab title="商品详情" icon-on="ion-android-cart" icon-off="ion-android-cart">
+                    购物车
+                </ion-tab>
+            </ion-tabs>
+        </ion-side-menu-content>
+        <!-- 左侧菜单 -->
+        <ion-side-menu side="left" ng-controller="leftMenuController" width="leftmenuWidth">
+            <ul class="list">
+                <li class="item">热门音乐</li>
+                <li class="item">经典老歌</li>
+                <li class="item">欧美金曲</li>
+                <li class="item">情歌对唱</li>
+            </ul>
+            <form action="">
+            	<ion-toggle ng-model="usb">USB调试模式</ion-toggle>
+            	<ion-toggle ng-model="mute" toggle-class="toggle-royal">静音</ion-toggle>
+            	<ion-toggle ng-model="wifi" toggle-class="toggle-dark">WIFI</ion-toggle>
+            </form>
+        </ion-side-menu>
+    </ion-side-menus>
 </body>
+
 </html>

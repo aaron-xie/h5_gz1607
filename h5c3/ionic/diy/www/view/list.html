@@ -1,0 +1,18 @@
+<ion-view title="列表">
+<ion-pane>
+	<ion-side-menus>
+		<ion-side-menu-content>
+			<!-- 嵌套路由 -->
+			<ion-nav-view name="catView"></ion-nav-view>
+			<!-- <img src="img/mm001.jpg"> -->
+		</ion-side-menu-content>
+		<ion-side-menu side="left" width="sideWidth">
+			<ion-content>
+			<ion-list>
+				<ion-item href="#/list/{{cat}}" menu-close ng-repeat="cat in categorys">{{cat}}</ion-item>
+			</ion-list>
+			</ion-content>
+		</ion-side-menu>
+	</ion-side-menus>
+	</ion-pane>
+</ion-view>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ionic应用</title>
+	<link rel="stylesheet" href="lib/ionic/css/ionic.css">
+	<script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script>
+		(function(){
+			var app = angular.module('main',['ionic']);
+
+			app.config([
+				'$stateProvider',
+				function($stateProvider){
+					console.log($stateProvider);
+
+					$stateProvider.state('app',{
+						url: '/home',
+    					templateUrl: 'view/home.html'
+					})
+
+					.state('app.list',{
+						url: '/list',
+    					templateUrl: 'view/home.html'
+					})
+
+					.state('app.details',{
+						'subView':{
+							url: '/details',
+    						templateUrl: 'view/details.html'
+						}
+						
+					})
+				}
+			])
+		})();
+	</script>
+</head>
+<body ng-app="main">
+	<ion-nav-view name="mainView" animation="slide-left-right">
+		
+		<ion-nav-view name="subView"></ion-nav-view>
+	</ion-nav-view>
+	<!-- <div ng-view></div> -->
+
+	<a href="#/home"></a>
+	<a href="#/home/list"></a>
+</body>
+</html>

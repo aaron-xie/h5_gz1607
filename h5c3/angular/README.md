@@ -442,7 +442,6 @@ directive('myDirective', function() {
 
 
 
-
 ##路由
 >AngularJS可以实现多视图的单页Web应用（SPA）,通过 # + 标记 帮助我们区分不同的逻辑页面并将不同的页面绑定到对应的控制器上
 

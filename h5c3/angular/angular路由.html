@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angular路由</title>
+	<link rel="stylesheet" href="lib/ionic/css/ionic.css">
+	<style>
+		html,body{height:100%;}
+	</style>
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular-route/angular-route.js"></script>
+	<script>
+		(function(){
+			var app = angular.module('main',['ngRoute']);
+
+			app.config([
+				'$routeProvider',
+				function($routeProvider){
+					console.log($routeProvider);
+
+					$routeProvider.when('/home',{
+						// template:'<div><h1>首页</h1></div>'
+						templateUrl:'view/home.html',
+						controller:'homeController'
+					})
+
+					.when('/list',{
+						template:'<div><h2>列表</h2></div>'
+					})
+
+					.when('/settings',{
+						// template:'<div><h2>列表</h2></div>'
+						templateUrl:'view/settings.html'
+					})
+
+					.otherwise({
+						redirectTo:'/home'
+					})
+				}
+			])
+
+
+			app.controller('homeController',[
+				'$scope',
+				function($scope){
+					$scope.namelist = ['林丹','凤姐','赵雅淇','刘恺威']
+				}
+			])
+		})();
+	</script>
+</head>
+<body ng-app="main">
+	<div ng-view></div>
+	<div class="tabs">
+	  <a class="tab-item" href="#/home">
+	    主页
+	  </a>
+	  <a class="tab-item" href="#/list">
+	    列表
+	  </a>
+	  <a class="tab-item" href="#/settings">
+	    设置
+	  </a>
+	</div>
+</body>
+</html>

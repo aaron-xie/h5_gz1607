@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angular控制器别名</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+	(function(){
+		var app = angular.module('main',[]);
+
+		// 全局常量
+		app.constant('gb', {name:'good boy'});
+
+		app.run(function($rootScope){
+			$rootScope.global = {
+				current:'h5 1607',
+				qty:42
+			}
+		})
+
+		app.controller('mainController',[
+			'$scope',
+			'gb',
+			function($scope,gb){
+				$scope.title = '主控制器$scope';
+				console.log($scope);
+
+				// 控制器与$scope
+				this.name = 'h5 1607';
+
+				$scope.bb = gb;
+			}
+		])
+
+		app.controller('aController',[
+			'$scope',
+			function($scope){
+				$scope.title = 'a标题';
+			}
+		])
+
+		app.controller('bController',[
+			'$scope',
+			function($scope){
+				// $scope.title = 'a标题';
+				
+				this.age = 100;
+				$scope.gender = '女';
+			}
+		])
+
+		app.directive('test',function(){
+			return{
+				require:'^ngController',
+				link:function(scope,element,attrs,someCtrl){
+					console.log(someCtrl);
+				}
+			}
+		})
+	})();
+	</script>
+</head>
+<!--  mainController as mc 
+	在当前控制器下$scope上创建一个同名属性mc
+-->
+<body ng-app="main" ng-controller="mainController as mc">
+	{{title}}
+	{{mc.name}}
+	<p>{{bb.name}}</p>
+	<div ng-controller="aController">
+		<div ng-controller="bController">
+			{{mc.name}}
+			<div test></div>
+		</div>
+		本班人数：{{global.qty}}
+	</div>
+</body>
+</html>

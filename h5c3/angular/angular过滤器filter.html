@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>angular过滤器filter</title>
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		(function(){
+			var app = angular.module('main',[]);
+
+			app.controller('arController', [
+				'$scope',
+				'$filter', 
+				function($scope,$filter){
+					$scope.datalist = [11,20,60,50,10];
+
+					$scope.namelist = ['老王','老马','老王','老梁','老王','小王','小马','小谢','小马','小谢'];
+
+					$filter('norepeat')()
+
+					$scope.test = function(num){
+						return num>20
+					}
+				}
+			]);
+
+			// 自定义过滤器
+			app.filter('arf',[
+				'$rootScope',
+				function($rootScope){
+					console.log($rootScope);
+
+					return function(arr,params1){
+						//console.log(arguments);
+						return arr.map(function(name,idx){
+							return name + params1 + idx*idx + 'plus'
+						})
+					}
+				}
+			]);
+
+			app.filter('norepeat',function(){
+				return function(arr){
+					var obj = {};
+					arr.forEach(function(item){
+						if(obj[item] === undefined){
+							obj[item] = 1;
+						}else{
+							obj[item]++;
+						}
+						
+					});
+					console.log(obj);
+					return Object.keys(obj);
+				}
+			})
+		})();
+	</script>
+</head>
+<body ng-app="main" ng-controller="arController">
+	<ul>
+		<li ng-repeat="num in datalist | filter:test track by $index">{{num | number:2}}</li>
+	</ul>
+	<p ng-repeat="name in namelist | arf:'超爱'">{{name}}</p>
+	<p ng-repeat="name in namelist | norepeat">{{name}}</p>
+</body>
+</html>

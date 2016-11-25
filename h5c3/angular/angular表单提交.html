@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>angular表单提交</title>
+	<link rel="stylesheet" href="lib/ionic/css/ionic.css">
+	<script src="lib/angular/angular.js"></script>
+	<script>
+		(function(){
+			var app = angular.module('main',[]);
+
+
+			app.controller('mainController', [
+				'$scope', 
+				'$http', 
+				function($scope,$http){
+				$scope.submit = function(){
+					$http({
+						method:'POST',
+						url:'xxxx.php',
+						data:{
+							username:$scope.username
+						}
+					}).success(function(){
+
+					})
+				}
+			}])
+		})();
+	</script>
+</head>
+<body ng-app="main">
+	<form novalidate class="padding" ng-controller="mainController">
+		<div class="list">
+		  <label class="item item-input">
+		    <input type="text" ng-model="username" name="username" placeholder="User Name">
+		  </label>
+		  <label class="item item-input">
+		    <input type="password" placeholder="Password" ng-model="password" name="password">
+		  </label>
+		  <label class="item item-input">
+		    <textarea placeholder="Comments" ng-model="comment" name="comment"></textarea>
+		  </label>
+		</div>
+		<button class="button button-calm button-block" ng-click="sumbit()">
+		  提交
+		</button>
+	</form>
+</body>
+</html>

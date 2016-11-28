@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>播放器</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<script>
+		var xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function(e){
+			if(xhr.readyState == 4 && xhr.status == 200){
+				var res = JSON.parse(xhr.responseText);
+
+				var ul = document.createElement('ul');
+				ul.classList.add('list-group');
+				res.forEach(function(item){
+					var li = document.createElement('li');
+
+					li.innerHTML = '<a href="'+item.src+'" class="badge">下载</a>' + item.singer + ' - ' + item.name;
+					li.classList.add('list-group-item');
+
+					ul.appendChild(li);
+				});
+
+
+				var datalist = document.querySelector('.datalist');
+				datalist.innerHTML = '';
+				datalist.appendChild(ul);
+			}
+		}
+
+		
+
+		document.addEventListener('DOMContentLoaded',function(){
+			var btnSongs = document.querySelector('#btnSongs');
+
+			// 请求歌曲信息
+			btnSongs.onclick = function(){
+				xhr.open('get','http://localhost:3000/getSongs',true);
+
+				xhr.send();
+			}
+
+
+			// 添加歌曲
+			var btnSubmit = document.querySelector('#btnSubmit');
+			var songName = document.querySelector('#songName');
+			var singer = document.querySelector('#singer');
+
+			var xhr_send = new XMLHttpRequest();
+			btnSubmit.onclick = function(){
+				xhr_send.open('get','http://localhost:3000/addSong?songName=' + songName.value + '&singer='+singer.value,true);
+				xhr_send.send();
+			}
+
+			// 下载歌曲
+			var datalist = document.querySelector('.datalist');
+
+			datalist.onclick = function(e){
+				if(e.target.className == 'badge'){
+					var _url = e.target.href.replace('http://localhost:3000','');
+					var xhr_send = new XMLHttpRequest();
+					xhr_send.open('get','http://localhost:3000/download?url=' + _url,true);
+					xhr_send.send();
+				}
+				e.preventDefault();
+			}
+		});
+	</script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="form-group">
+			<label for="songName">歌名：</label>
+			<input type="text" class="form-control" id="songName" name="songName">
+		</div>
+		<div class="form-group">
+			<label for="singer">歌手：</label>
+			<input type="text" class="form-control" id="singer" name="singer">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-success" id="btnSubmit">提交</button>
+			<button class="btn btn-default" id="btnSongs">获取歌曲信息</button>
+		</div>
+	</div>
+	<div class="datalist">
+		
+	</div>
+</body>
+</html>

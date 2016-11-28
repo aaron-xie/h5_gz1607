@@ -40,4 +40,4 @@ var server = http.createServer(function(request,response){
 // 监听端口
 server.listen(PORT,function(){
 	console.log('服务器创建成功，请打开http://localhost:'+PORT);
-})
+});

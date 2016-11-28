@@ -76,5 +76,17 @@
         "singer": "陈超",
         "name": "求佛",
         "filename": "media/陈超-求佛.jpg"
+    },
+    {
+        "src": "media/筷子兄弟-小苹果.mp3",
+        "singer": "筷子兄弟",
+        "name": "小苹果",
+        "album": "media/筷子兄弟-小苹果.jpg"
+    },
+    {
+        "src": "media/凤凰传奇-最炫民族风.mp3",
+        "singer": "凤凰传奇",
+        "name": "最炫民族风",
+        "album": "media/凤凰传奇-最炫民族风.jpg"
     }
 ]

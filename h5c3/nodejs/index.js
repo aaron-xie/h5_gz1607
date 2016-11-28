@@ -83,10 +83,100 @@ server.get('/getMusic',function(req,res,next){
 
 		res.end(JSON.stringify(resText));
 	})
+});
+
+// 获取songs.json内容
+server.get('/getSongs',function(req,res){
+	res.writeHead(200,{
+		'content-type':'text/plain;charset=utf8'
+	});
+
+	fs.readFile('./songs.json',function(err,data){
+		if(err){
+			res.end('文件读取失败');
+		}
+
+		res.end(data);
+	});
+});
+
+// 添加歌曲
+server.get('/addSong',function(req,res){
+	console.log(req.query);//songName=小苹果&singer=筷子兄弟
+	// 1、先获取原来的内容
+	// 2、在原来的基础上添加新的内容（追加）
 
 
+	res.writeHead(200,{
+		'content-type':'text/plain;charset=utf8'
+	});
+
+	fs.readFile('./songs.json',function(err,data){
+		var data = JSON.parse(data.toString());
+
+		// 前端传来的信息
+		var postData = req.query;
+
+		var obj = {
+			src:'media/' + postData.singer + '-' + postData.songName + '.mp3',
+			singer:postData.singer,
+			name:postData.songName,
+			album:'media/' + postData.singer + '-' + postData.songName + '.jpg'
+		}
+
+		// 追加内容
+		data.push(obj);
+
+
+		// 写入文件
+		fs.writeFile('./songs.json',JSON.stringify(data,null,4),function(err){
+			if(err){
+				res.end('文件写入失败');
+			}
+			res.end('提交成功');
+		});
+	});
+});
+
+// 下载歌曲
+server.get('/download',function(req,res){
+	res.writeHead(200,{
+		'content-type':'audio/mpeg'
+	});
+
+	// var readUrl = path.dirname(req.query.url) + '/' + path.basename(req.query.url);
+	// console.log(path.dirname(req.query.url),path.basename(req.query.url),readUrl)
+	console.log(req.query);
+	var readUrl = './' + req.query.url;
+	fs.readFile(readUrl,function(err,data){
+		if(err){
+			res.end('文件路径错误');
+			
+		}
+		// res.writeHead(200,{
+		// 	'content-type':'audio/mpeg'
+		// });
+		res.end(data);
+	});
+});
+
+
+// jsonp请求
+// 返回前端的是一串js代码
+server.get('/jsonp',function(req,res){
+	res.writeHead(200,{
+		'content-type':'text/plain;charset=utf8'
+	});
+
+	var obj = {name:'王x强',age:18};
+
+	var fn = req.query.callback;
+
+	// 返回一个函数执行字符串给前端
+	res.end(fn + '('+JSON.stringify(obj)+')');
+	
 });
 
 server.listen(3000,function(){
 	console.log('服务器启动成功,http://localhost:3000')
-})
+});

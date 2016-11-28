@@ -1,0 +1,1 @@
+getData({name:'王x强',age:18})

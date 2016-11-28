@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jsonp请求原理</title>
+	<script src="lib/jquery-1.12.0.js"></script>
+	<script>
+		// 请求的目的是：获取数据
+		//1、跨域（同源策略）
+		//	jsonp,cors
+
+		// 能访问其他域名内容的标签
+		// img,script,link,audio,video,iframe
+		// 
+		// JSONP的原理：通过script标签能够访问外部服务器的特性实现数据的传输
+		// 关键：事先声明一个全局函数，并把函数名传给服务器
+		// JSONP不是ajax请求
+		function getData(data){
+			console.log(data)
+		}
+
+		var script = document.createElement('script');
+		script.src = 'http://localhost:3000/jsonp?callback=getData';
+		document.head.appendChild(script);
+
+		
+
+		// jQuery ajax方法的原理
+		/*$.ajax = function(opt){
+			if(opt.dataType === 'jsonp'){
+				var script = document.createElement('script');
+				var randomFn = 'jQuery'+parseInt(Math.random()*1000000010011);
+				window[randomFn] = function(data){
+					opt.success(data);
+
+					delete window[randomFn];
+				}
+				script.src = opt.url + '?callbak=' + randomFn;
+				document.head.appendChild(script);
+			}else{
+				var xhr = new XMLHttpRequest();
+			}
+		}
+*/
+
+		$.ajax({
+			url:'http://localhost:3000/jsonp',
+			dataType:'jsonp',
+			success:function(data){
+				console.log(data)
+			}
+		});
+
+
+		var obj = {}
+		obj.name = 'xx';
+		obj['name'] = 'xx'
+	</script>
+	<!-- <script src="http://localhost:3000/jsonp?callback=getData"></script> -->
+	<script src="test.js"></script>
+</head>
+<body>
+	
+</body>
+</html>

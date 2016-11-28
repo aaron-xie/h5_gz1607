@@ -1,1 +1,1 @@
-console.log('testjs文件')
+getData([{name:'xxx'}])

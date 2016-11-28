@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>播放器</title>
+	<script>
+		var xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function(e){
+			if(xhr.readyState == 4 && xhr.status == 200){
+
+				var res = JSON.parse(xhr.responseText);
+
+				var ul = document.createElement('ul')
+				res.forEach(function(item){
+					var li = document.createElement('li');
+					li.innerHTML = item.singer + ' - ' + item.name;
+					li.setAttribute('data-src',item.src)
+					ul.appendChild(li);
+				});
+
+				document.querySelector('.datalist').appendChild(ul);
+			}
+		}
+
+		xhr.open('get','http://localhost:3000/getMusic',true);
+
+		xhr.send()
+	</script>
+</head>
+<body>
+	<h1>播放器</h1>
+	<div class="datalist">
+		
+	</div>
+</body>
+</html>

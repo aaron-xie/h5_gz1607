@@ -31,9 +31,8 @@ server.get('/getcity',function(req,res){
 	res.write(JSON.stringify(resText));
 	res.end();
 });
-server.get('/getcity/:cityname',function(req,res){
 
-	
+server.get('/getcity/:cityname',function(req,res){
 
 	// API：根据路径返回不同数据
 	var resText = {};

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>继承</title>
+	<script>
+		/*
+			* 我方飞机
+			* 敌方飞机
+				* 大飞机
+				* 小飞机 
+		 */
+		function Plane(type,direction,color,speed,hp){
+			// 飞机的基本属性
+			/*for(var attr in opt){
+				this[attr] = opt[attr]
+			}
+*/
+			this.type = type;
+			this.direction = direction || 'up';
+			this.color = color || 'black';
+			this.speed = speed || 10;
+			this.hp = hp || 100;
+
+			// ...
+		}
+
+		// 飞机的方法
+
+		// 初始化
+		Plane.prototype.init = function(){}
+
+		// 飞行
+		Plane.prototype.move = function(){
+			console.log('I believe i can fly')
+		}
+
+		Plane.prototype.die = function(){
+			console.log('go die了');
+		}
+
+
+		// 我方飞机
+		// 利用《继承》实现MyPlane拥有Plane的所有属性和方法
+		function MyPlane(){
+			// 利用借用构造函数继承属性
+			// Plane.call(this,type,direction,color,speed,hp);
+
+			// aplly
+			Plane.apply(this,arguments);
+		}
+
+		// 实现继承的关键
+		// 利用原型链继承方法
+		// MyPlane.prototype = new Plane();
+
+		// 原型式继承
+		MyPlane.prototype = Object.create(Plane.prototype);
+
+		// 重置原型对象后，建议从新设置constructor属性
+		// MyPlane.prototype.constructor = MyPlane;
+
+		// 设置属性特性
+		// 让constructor属性不可遍历
+		Object.defineProperty(MyPlane.prototype,'constructor',{
+			enumerable:false,
+			value:MyPlane
+		});
+
+
+
+		var mp = new MyPlane('f35',null,null,30);console.log('mp:',mp);console.log(Object.getPrototypeOf(mp))
+		mp.move();
+
+
+		// 敌方飞机
+		function Enemy(){
+
+		}
+
+
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

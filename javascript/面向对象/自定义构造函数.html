@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义构造函数</title>
+	<script>
+		var obj = new Object();
+
+		var now = new Date();
+
+		var str1 = new String('h5 1607');//字符串包装对象
+		var str2 = 'h5 1607';//字符串
+
+		// 
+		str1.replace('h5','html5');
+
+		// 字符串怎么会有方法呢？
+		str2.replace('h5','html5');
+		// 以上代码经历了以下几步(js内部实现)：
+		// 1、str2 = new String(str2)
+		// 2、str2.replace('h5','html5');
+		// 3、delete str2;
+
+		var n1 = 1235;
+		n1.toFixed(2);
+
+
+		// 自定义构造函数
+		// 约定：首字母大写
+		function Movie(name,type,duration,star){
+			// 这里的this指向谁
+			// 指向实例
+			this.name = name;
+			this.type = type;
+			this.duration = duration;
+			this.star = star;
+
+			// 用new Movie时，以上的属性会被复制
+		}
+
+		// 构造函数与一般函数的区别：
+		// 执行方法不一样
+
+		// Movie();
+		// new Movie();
+
+		var m1 = new Movie('冰河世纪','动画','90m',9.2);//==>得到对象
+		
+		m1.src = 'F://aa';
+		m1.play = function(){
+			this.src
+		}
+		console.log(m1)
+
+		var m2 = new Movie('王牌逗王牌','喜剧','90m',4.6);
+		m2.getName = function(){
+			return 'get什么get';
+		}
+		console.log(m2);
+		// console.log(m2.__proto__);//浏览器的私有属性
+		// console.log('m2的原型对象：',Object.getPrototypeOf(m2));
+
+
+		// 原型对象
+		// console.log(Movie.prototype)
+		Movie.prototype.getName = function(){
+			return this.name;
+		}
+
+
+		// 模拟构造函数
+		// 1> 创建一个新对象；
+		// 2> 将构造函数的作用域赋给新对象（把this绑定到实例对象）；
+		// 3> 执行构造函数中的代码（为这个新对象添加属性）；
+		// 4> 返回新对象。
+
+		/*function myMovie(name,type,duration,star){
+			var o = {};
+			o.name = name;
+			o.type = type;
+			o.duration = duration;
+			o.star = star;
+
+			return o;
+		}
+
+		var m3 = myMovie('熊出没','动画','90m',9.1);
+		console.log(m3);*/
+
+		// 原型对象
+
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

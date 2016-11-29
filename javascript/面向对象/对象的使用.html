@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>对象的使用</title>
+	<script>
+		var obj = {name:'王蓉',age:20,play:function(){
+				console.log('我叫'+this.name+',我会演戏，今晚有戏');//推导=>
+			}
+		}
+
+		obj.name;
+		obj['name'];
+		obj.play();
+
+		// 不存在的属性返回值：undefined（并不会报错）
+		console.log(obj.attr);
+		console.log(Object)
+
+		// 遍历
+		for(var attr in obj){
+			console.log(obj[attr])
+		}
+
+
+		// js方法调用
+		// 面向过程
+		function getAge(){
+			console.log(this);//==>推导this
+			return 18;
+		}
+
+		getAge()
+
+
+		// 面向对象
+		obj.play();
+
+
+		// 工厂函数：减少代码量
+		function createObj(name,age,gender,hobby){
+			var o = new Object();
+
+			o.name = name;
+			o.gender = gender || '男'
+			o.age = age || 18;
+			o.hobby = hobby;
+
+			return o;
+		}
+
+		var p = createObj('王xx');console.log(p)
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

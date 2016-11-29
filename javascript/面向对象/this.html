@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>对象的使用</title>
+	<script>
+		var name = '我是老大';//全局作用域下的变量声明会自动称为window对象的属性
+
+		var obj = {};
+		obj.name = 'angular baby';
+		obj.age = 26;
+		obj.price = 600000;
+		obj.movie = ['寻龙诀','都是烂片'];
+		obj.showMovie = function(){
+			console.log('我叫' + this.name + ', 我的作品' + this.movie)
+		}
+
+		function sing(){
+			console.log(this.name);
+		}
+
+		obj.sing = sing;
+
+
+		// 使用
+		obj.showMovie();
+
+		sing();//=>'我是老大'
+		obj.sing();// ==>'angular baby'
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

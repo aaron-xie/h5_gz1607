@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>电商网对象的描述</title>
+	<script>
+		// 全局对象
+		var global = {}
+
+		// 首页homepage.js
+		global.homePage = function(){
+			this.pageTitle = '首页';
+			// 轮播图
+			function slide(){
+
+			}
+
+
+			this.homePage.slide = slide;
+		}
+
+		// 列表页listpage.js
+		global.listPage = function(){
+			this.pageTitle = '列表';
+			this.homePage.slide
+		}
+
+		// 购物车cartpage.js
+		global.cartPage = function(){
+			this.pageTitle = '购物车';
+
+			// 把购物车当作一个对象
+			var cart = {
+
+			}
+
+			// 商品列表
+			cart.goodsList = [{name:'g1',id:'xxxx',price:998,qty:2},{name:'g2',id:'xxxx2',price:1998,qty:1}];
+
+
+			// 合计功能
+			cart.sum = function(){
+				this.goodsList.reduce(function(pre,cur,idx,arr){
+					return pre.price*pre.qty + cur.price*cur.qty;
+				});
+			}
+
+			// cart.sum();
+
+			// 删除
+			cart.remove = function(id){
+				var self = this;
+				self.goodsList.forEach(function(item,idx){
+					if(item.id === id){
+						self.goodsList.splice(idx,1);
+					}
+				});
+
+				// 从新计算价格
+				self.sum();
+
+				// 重新渲染DOM节点
+				self.render();
+			}
+
+			// 渲染DOM节点
+			cart.render = function(){
+
+			}
+
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
